@@ -1,0 +1,279 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (toggled via `.dark` on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans:
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* BSI brand teal — overrides Tailwind's default emerald scale so every
+     emerald-* utility in the codebase renders the official brand color instead
+     of generic emerald. Primary reference: BSI brand teal #00847D. */
+  --color-emerald-50: #eefaf8;
+  --color-emerald-100: #dcf5f1;
+  --color-emerald-200: #b9efe9;
+  --color-emerald-300: #7ee8dd;
+  --color-emerald-400: #00d6cb;
+  --color-emerald-500: #00847d;
+  --color-emerald-600: #00665f;
+  --color-emerald-700: #00524b;
+  --color-emerald-800: #04514c;
+  --color-emerald-900: #063f3b;
+  --color-emerald-950: #04211d;
+
+  /* Gold accent — used sparingly for highlights (Hasanah Card, badges,
+     Hajj/Umrah). Matches the `--chart-4` token per theme. */
+  --color-gold-400: #e9c06a;
+  --color-gold-500: #c9972c;
+  --color-gold-600: #b07d1a;
+  --color-gold-700: #8a5f12;
+}
+
+/* Theme tokens that switch with dark mode at runtime.
+   Utilities like bg-surface / text-ink resolve to these variables. */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-card: var(--surface-card);
+  --color-surface-strong: var(--surface-strong);
+  --color-elevated: var(--elevated);
+  --color-ink: var(--ink);
+  --color-ink-strong: var(--ink-strong);
+  --color-ink-mid: var(--ink-mid);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --shadow-sm: var(--shadow-sm-val);
+  --shadow-md: var(--shadow-md-val);
+  --shadow-lg: var(--shadow-lg-val);
+  --shadow-xl: var(--shadow-xl-val);
+  --shadow-2xl: var(--shadow-2xl-val);
+}
+
+:root {
+  font-family: var(--font-sans);
+  color-scheme: light;
+  --surface: #ffffff;
+  --surface-muted: #f9fafb;
+  --surface-card: #ffffff;
+  --surface-strong: #ffffff;
+  --elevated: #ffffff;
+  --ink: #111827;
+  --ink-strong: #1f2937;
+  --ink-mid: #4b5563;
+  --ink-soft: #6b7280;
+  --ink-faint: #9ca3af;
+  --line: #f3f4f6;
+  --line-strong: #e5e7eb;
+  --chart-1: #00847d;
+  --chart-2: #14b8a6;
+  --chart-3: #64748b;
+  --chart-4: #c9972c;
+  --shadow-sm-val: 0 1px 2px 0 rgb(0 0 0 / 0.06);
+  --shadow-md-val:
+    0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg-val:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.06);
+  --shadow-xl-val:
+    0 20px 25px -5px rgb(0 0 0 / 0.12), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+  --shadow-2xl-val: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Surface hierarchy — "Calm Premium Islamic Banking" deep-green system.
+     Steps between levels are narrower than a high-contrast system, so the
+     page reads as one continuous soft surface rather than stacked blocks. */
+  --surface: #0a1e1a; /* Level 1 — page background */
+  --surface-muted: #0e2622; /* Level 2 — section background */
+  --surface-card: #14332d; /* Level 3 — card / primary surface */
+  --elevated: #1a3f38; /* Level 4 — modal / dropdown / popover / tooltip */
+  --surface-strong: #1f4a42; /* Level 5 — hover / active surface */
+
+  /* Text hierarchy — dimmed off-whites instead of near-white, so copy
+     never glares against the dark surface. */
+  --ink: #e7ede9; /* primary text / headings */
+  --ink-strong: #edf2ee; /* strongest emphasis — still soft, not bright white */
+  --ink-mid: #a3b3ac; /* secondary text */
+  --ink-soft: #8a9d95; /* body copy / descriptions */
+  --ink-faint: #6d7f77; /* muted / least prominent text */
+
+  /* Borders */
+  --line: #1c352f; /* subtle border — default card/divider edge */
+  --line-strong: #274238; /* default/active border — scrolled navbar, emphasis */
+
+  /* Charts */
+  --chart-1: #0da58e; /* primary series — BSI teal, softened */
+  --chart-2: #4c9c8c; /* secondary series — muted harmonious teal */
+  --chart-3: #7e918b; /* neutral / muted series */
+  --chart-4: #dba455; /* gold accent series (Hasanah Card / Hajj-Umrah) */
+
+  /* Accent — pulled back toward the true BSI brand teal hue (not the
+     grey-sage drift), just softened in saturation/brightness so it stays
+     calm on a dark surface instead of glowing. */
+  --color-emerald-500: #0da58e;
+  --color-emerald-600: #39b5a2;
+  --color-emerald-400: #39b5a2;
+  /* Dark gold accent — matches --chart-4, softened. */
+  --color-gold-400: #e3bd7c;
+  --color-gold-500: #d6a24f;
+  --color-gold-600: #d6a24f;
+  --color-gold-700: #b3823a;
+
+  /* Shadows — even softer: depth without any harsh drop. */
+  --shadow-sm-val: 0 1px 2px 0 rgb(0 0 0 / 0.22);
+  --shadow-md-val:
+    0 4px 8px -2px rgb(0 0 0 / 0.28), 0 2px 4px -2px rgb(0 0 0 / 0.18);
+  --shadow-lg-val:
+    0 12px 20px -4px rgb(0 0 0 / 0.32), 0 4px 8px -4px rgb(0 0 0 / 0.2);
+  --shadow-xl-val:
+    0 20px 28px -8px rgb(0 0 0 / 0.35), 0 8px 12px -6px rgb(0 0 0 / 0.22);
+  --shadow-2xl-val: 0 24px 48px -12px rgb(0 0 0 / 0.4);
+}
+
+/* Dark mode: raise the contrast of brand-teal accent text on dark surfaces.
+   Small teal labels/links/icons set to the brand #00847D only reach ~4:1 on
+   the dark charcoal surfaces (below WCAG AA), so they shift to the brighter
+   emerald-400 token. Light mode is left untouched. These rules live in the
+   utilities layer and use :where() so explicit hover/group-hover white states
+   (e.g. hover:text-white on a solid teal button) still win. */
+@layer utilities {
+  .dark :where(.text-emerald-500) {
+    color: var(--color-emerald-400);
+  }
+  .dark :where(.text-emerald-500\/50) {
+    color: rgba(57, 181, 162, 0.5);
+  }
+  .dark :where(.text-emerald-500\/80) {
+    color: rgba(57, 181, 162, 0.8);
+  }
+  .dark .hover\:text-emerald-500:hover {
+    color: var(--color-emerald-400);
+  }
+  .dark .hover\:text-emerald-600:hover {
+    color: var(--color-emerald-400);
+  }
+  .dark .group:hover .group-hover\:text-emerald-500 {
+    color: var(--color-emerald-400);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background-color: var(--surface);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background-color: rgba(0, 132, 125, 0.25);
+}
+
+.dark ::selection {
+  background-color: rgba(13, 165, 142, 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-emerald-500);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar — follows the active theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 2px solid var(--surface-muted);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-emerald-500);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) var(--surface-muted);
+}
+
+/* Dark mode: soft teal ambient glow floating above the page surface.
+   Kept faint and desaturated so it reads as calm ambience, not a glow. */
+.dark body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      60% 40% at 50% -5%,
+      rgba(13, 165, 142, 0.05),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 35% at 105% 105%,
+      rgba(26, 63, 56, 0.4),
+      transparent 70%
+    );
+}
+
+/* Smooth colour transitions only while a theme change is in flight
+   (`.theme-transition` is applied briefly by useDarkMode). */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition-property:
+    background-color, color, border-color, fill, stroke, box-shadow, opacity;
+  transition-duration: 0.35s;
+  transition-timing-function: ease;
+}
+
+/* Accessibility: honour reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

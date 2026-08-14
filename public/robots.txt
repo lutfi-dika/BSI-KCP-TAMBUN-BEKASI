@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.bsi-kcptambun.my.id/sitemap.xml
