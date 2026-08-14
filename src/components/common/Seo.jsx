@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useLanguage } from "../../context/languageContext";
 
-export const SITE_URL = "https://bsi-kcp-tambun-bekasi.netlify.app";
+export const SITE_URL = "https://bsi-kcp-tambun-bekasi.vercel.app";
 export const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 function setMeta(attr, key, content) {
