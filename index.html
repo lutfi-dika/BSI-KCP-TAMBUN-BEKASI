@@ -15,9 +15,12 @@
       content="Website informasi BSI KCP Tambun Bekasi yang menyediakan informasi profil, layanan, produk, lokasi, dan kontak Bank Syariah Indonesia."
     />
     <meta name="author" content="BSI KCP Tambun Bekasi" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <meta name="theme-color" content="#00847D" />
-    <link rel="canonical" href="https://www.bsi-kcptambun.my.id/" />
+    <link rel="canonical" href="https://bsi-kcp-tambun-bekasi.netlify.app/" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -26,28 +29,49 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="BSI KCP Tambun Bekasi" />
-    <meta property="og:title" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
+    <meta
+      property="og:title"
+      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
+    />
     <meta
       property="og:description"
       content="Website informasi BSI KCP Tambun Bekasi yang menyediakan informasi profil, layanan, produk, lokasi, dan kontak Bank Syariah Indonesia."
     />
-    <meta property="og:url" content="https://www.bsi-kcptambun.my.id/" />
-    <meta property="og:image" content="https://www.bsi-kcptambun.my.id/og-image.png" />
+    <meta
+      property="og:url"
+      content="https://bsi-kcp-tambun-bekasi.netlify.app/"
+    />
+    <meta
+      property="og:image"
+      content="https://bsi-kcp-tambun-bekasi.netlify.app/og-image.png"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
+    <meta
+      property="og:image:alt"
+      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
+    />
     <meta property="og:locale" content="id_ID" />
     <meta property="og:locale:alternate" content="en_US" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
+    <meta
+      name="twitter:title"
+      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
+    />
     <meta
       name="twitter:description"
       content="Website informasi BSI KCP Tambun Bekasi yang menyediakan informasi profil, layanan, produk, lokasi, dan kontak Bank Syariah Indonesia."
     />
-    <meta name="twitter:image" content="https://www.bsi-kcptambun.my.id/og-image.png" />
-    <meta name="twitter:image:alt" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
+    <meta
+      name="twitter:image"
+      content="https://bsi-kcp-tambun-bekasi.netlify.app/og-image.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
+    />
 
     <!-- Fonts (preconnect + display=swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -62,12 +86,12 @@
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "@id": "https://www.bsi-kcptambun.my.id/#organization",
+        "@id": "https://bsi-kcp-tambun-bekasi.netlify.app/#organization",
         "name": "BSI KCP Tambun Bekasi",
         "alternateName": "Bank Syariah Indonesia Kantor Cabang Pembantu Tambun",
-        "url": "https://www.bsi-kcptambun.my.id/",
-        "logo": "https://www.bsi-kcptambun.my.id/favicon.svg",
-        "image": "https://www.bsi-kcptambun.my.id/og-image.png",
+        "url": "https://bsi-kcp-tambun-bekasi.netlify.app/",
+        "logo": "https://bsi-kcp-tambun-bekasi.netlify.app/favicon.svg",
+        "image": "https://bsi-kcp-tambun-bekasi.netlify.app/og-image.png",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Jl. Sultan Hasanuddin No. 1, Tambun Selatan",
@@ -91,29 +115,31 @@
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "@id": "https://www.bsi-kcptambun.my.id/#website",
-        "url": "https://www.bsi-kcptambun.my.id/",
+        "@id": "https://bsi-kcp-tambun-bekasi.netlify.app/#website",
+        "url": "https://bsi-kcp-tambun-bekasi.netlify.app/",
         "name": "BSI KCP Tambun Bekasi",
         "description": "Website informasi BSI KCP Tambun Bekasi yang menyediakan informasi profil, layanan, produk, lokasi, dan kontak Bank Syariah Indonesia.",
         "inLanguage": "id",
-        "publisher": { "@id": "https://www.bsi-kcptambun.my.id/#organization" }
+        "publisher": {
+          "@id": "https://bsi-kcp-tambun-bekasi.netlify.app/#organization"
+        }
       }
     </script>
 
     <script>
-      ;(function () {
+      (function () {
         try {
-          var t = localStorage.getItem("bsi-theme")
+          var t = localStorage.getItem("bsi-theme");
           var dark =
             t === "dark" ||
-            (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)
-          if (dark) document.documentElement.classList.add("dark")
-          var m = document.querySelector('meta[name="theme-color"]')
-          if (m) m.setAttribute("content", dark ? "#081C18" : "#00847D")
-          var l = localStorage.getItem("bsi-lang")
-          if (l === "en") document.documentElement.lang = "en"
+            (!t && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute("content", dark ? "#081C18" : "#00847D");
+          var l = localStorage.getItem("bsi-lang");
+          if (l === "en") document.documentElement.lang = "en";
         } catch (e) {}
-      })()
+      })();
     </script>
   </head>
   <body>

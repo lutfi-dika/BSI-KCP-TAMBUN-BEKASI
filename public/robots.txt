@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.bsi-kcptambun.my.id/sitemap.xml
+Sitemap: https://bsi-kcp-tambun-bekasi.netlify.app/sitemap.xml

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useLanguage } from "../../context/languageContext";
 
-export const SITE_URL = "https://www.bsi-kcptambun.my.id";
+export const SITE_URL = "https://bsi-kcp-tambun-bekasi.netlify.app";
 export const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 function setMeta(attr, key, content) {
@@ -52,7 +52,11 @@ export default function Seo({ title, description, path, jsonLd }) {
     setMeta("property", "og:url", canonical);
     setMeta("property", "og:image", OG_IMAGE);
     setMeta("property", "og:locale", locale);
-    setMeta("property", "og:locale:alternate", locale === "en_US" ? "id_ID" : "en_US");
+    setMeta(
+      "property",
+      "og:locale:alternate",
+      locale === "en_US" ? "id_ID" : "en_US",
+    );
     setMeta("name", "twitter:title", title);
     setMeta("name", "twitter:description", description);
     setMeta("name", "twitter:image", OG_IMAGE);
