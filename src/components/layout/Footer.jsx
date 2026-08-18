@@ -6,6 +6,7 @@ import { useLanguage } from "../../context/languageContext";
 import footerBg from "../../assets/footer-bg.png";
 import bsiLogo from "../../assets/bsi-logo.png";
 
+
 export default function Footer() {
   const { t, tr } = useLanguage();
   const year = new Date().getFullYear();

@@ -21,6 +21,7 @@ import { useLanguage } from "../../context/languageContext";
 import { SERVICE_OVERVIEW } from "../../data/services";
 import bsiLogo from "../../assets/bsi-logo.png";
 
+
 const MEGA_ICONS = {
   wallet: FiDollarSign,
   hands: FiHeart,
