@@ -50,7 +50,7 @@ export const GALLERY = [
     category: { id: "Kegiatan", en: "Activities" },
     accent: "from-[#0A2B27] to-[#00847D]",
     icon: "handshake",
-    image: "/gallery/ramadan-NEW-icon-746-×-560-e1740130488272.webp",
+    image: "/gallery/Ramadhan.webp",
   },
   {
     id: 5,
