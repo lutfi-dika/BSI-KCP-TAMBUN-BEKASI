@@ -14,7 +14,7 @@
   --color-emerald-100: #dcf5f1;
   --color-emerald-200: #b9efe9;
   --color-emerald-300: #7ee8dd;
-  --color-emerald-400: #00d6cb;
+  --color-emerald-400: #00a0a0;
   --color-emerald-500: #00847d;
   --color-emerald-600: #00665f;
   --color-emerald-700: #00524b;
@@ -22,9 +22,10 @@
   --color-emerald-900: #063f3b;
   --color-emerald-950: #04211d;
 
-  /* Gold accent — used sparingly for highlights (Hasanah Card, badges,
+  /* Gold accent — official BSI brand gold. #f0b43c is the brighter logo gold,
+     #c9972c the deep gold used for text/highlights (Hasanah Card, badges,
      Hajj/Umrah). Matches the `--chart-4` token per theme. */
-  --color-gold-400: #e9c06a;
+  --color-gold-400: #f0b43c;
   --color-gold-500: #c9972c;
   --color-gold-600: #b07d1a;
   --color-gold-700: #8a5f12;
@@ -75,54 +76,55 @@
   --chart-2: #14b8a6;
   --chart-3: #64748b;
   --chart-4: #c9972c;
-  --shadow-sm-val: 0 1px 2px 0 rgb(0 0 0 / 0.06);
+  --shadow-sm-val:
+    0 1px 2px 0 rgb(16 24 40 / 0.04), 0 1px 3px 0 rgb(16 24 40 / 0.06);
   --shadow-md-val:
-    0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+    0 2px 4px -1px rgb(16 24 40 / 0.04), 0 8px 24px -6px rgb(16 24 40 / 0.08);
   --shadow-lg-val:
-    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.06);
+    0 4px 8px -2px rgb(16 24 40 / 0.04), 0 16px 32px -8px rgb(16 24 40 / 0.1);
   --shadow-xl-val:
-    0 20px 25px -5px rgb(0 0 0 / 0.12), 0 8px 10px -6px rgb(0 0 0 / 0.08);
-  --shadow-2xl-val: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    0 8px 16px -4px rgb(16 24 40 / 0.05), 0 24px 48px -12px rgb(16 24 40 / 0.12);
+  --shadow-2xl-val:
+    0 12px 24px -6px rgb(16 24 40 / 0.06), 0 32px 64px -16px rgb(16 24 40 / 0.14);
 }
 
 .dark {
   color-scheme: dark;
 
-  /* Surface hierarchy — "Calm Premium Islamic Banking" deep-green system.
-     Steps between levels are narrower than a high-contrast system, so the
-     page reads as one continuous soft surface rather than stacked blocks. */
-  --surface: #0a1e1a; /* Level 1 — page background */
-  --surface-muted: #0e2622; /* Level 2 — section background */
-  --surface-card: #14332d; /* Level 3 — card / primary surface */
-  --elevated: #1a3f38; /* Level 4 — modal / dropdown / popover / tooltip */
-  --surface-strong: #1f4a42; /* Level 5 — hover / active surface */
+  /* Surface hierarchy — clean charcoal with a subtle BSI-teal undertone.
+     Surfaces stay calm and minimal, but the faint teal cast keeps the whole
+     page recognisably on-brand even before any accent is used. */
+  --surface: #0d1516; /* Level 1 — page background */
+  --surface-muted: #12201f; /* Level 2 — section background */
+  --surface-card: #172726; /* Level 3 — card / primary surface */
+  --elevated: #1e3230; /* Level 4 — modal / dropdown / popover / tooltip */
+  --surface-strong: #263d3a; /* Level 5 — hover / active surface */
 
-  /* Text hierarchy — dimmed off-whites instead of near-white, so copy
+  /* Text hierarchy — dimmed off-whites with a faint cool-teal cast, so copy
      never glares against the dark surface. */
-  --ink: #e7ede9; /* primary text / headings */
-  --ink-strong: #edf2ee; /* strongest emphasis — still soft, not bright white */
-  --ink-mid: #a3b3ac; /* secondary text */
-  --ink-soft: #8a9d95; /* body copy / descriptions */
-  --ink-faint: #6d7f77; /* muted / least prominent text */
+  --ink: #e8eeec; /* primary text / headings */
+  --ink-strong: #f3f7f5; /* strongest emphasis — still soft, not bright white */
+  --ink-mid: #a4b0ac; /* secondary text */
+  --ink-soft: #899591; /* body copy / descriptions */
+  --ink-faint: #67736f; /* muted / least prominent text */
 
   /* Borders */
-  --line: #1c352f; /* subtle border — default card/divider edge */
-  --line-strong: #274238; /* default/active border — scrolled navbar, emphasis */
+  --line: #1d2c2a; /* subtle border — default card/divider edge */
+  --line-strong: #2a3e3b; /* default/active border — scrolled navbar, emphasis */
 
   /* Charts */
-  --chart-1: #0da58e; /* primary series — BSI teal, softened */
-  --chart-2: #4c9c8c; /* secondary series — muted harmonious teal */
-  --chart-3: #7e918b; /* neutral / muted series */
-  --chart-4: #dba455; /* gold accent series (Hasanah Card / Hajj-Umrah) */
+  --chart-1: #00a0a0; /* primary series — BSI logo teal */
+  --chart-2: #2e9e97; /* secondary series — harmonious teal */
+  --chart-3: #7e8b88; /* neutral / muted series */
+  --chart-4: #f0b43c; /* gold accent series (Hasanah Card / Hajj-Umrah) */
 
-  /* Accent — pulled back toward the true BSI brand teal hue (not the
-     grey-sage drift), just softened in saturation/brightness so it stays
-     calm on a dark surface instead of glowing. */
-  --color-emerald-500: #0da58e;
-  --color-emerald-600: #39b5a2;
-  --color-emerald-400: #39b5a2;
-  /* Dark gold accent — matches --chart-4, softened. */
-  --color-gold-400: #e3bd7c;
+  /* Accent — crisp BSI teal, brightened enough to pop on the dark surfaces
+     while staying calm (no glow). */
+  --color-emerald-500: #00a89c;
+  --color-emerald-600: #15b5a9;
+  --color-emerald-400: #15b5a9;
+  /* Dark gold accent — official BSI gold, softened for dark surfaces. */
+  --color-gold-400: #f0b43c;
   --color-gold-500: #d6a24f;
   --color-gold-600: #d6a24f;
   --color-gold-700: #b3823a;
@@ -149,10 +151,10 @@
     color: var(--color-emerald-400);
   }
   .dark :where(.text-emerald-500\/50) {
-    color: rgba(57, 181, 162, 0.5);
+    color: rgba(21, 181, 169, 0.5);
   }
   .dark :where(.text-emerald-500\/80) {
-    color: rgba(57, 181, 162, 0.8);
+    color: rgba(21, 181, 169, 0.8);
   }
   .dark .hover\:text-emerald-500:hover {
     color: var(--color-emerald-400);
@@ -167,6 +169,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6.75rem; /* keeps anchored sections clear of the fixed header */
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
 }
@@ -176,6 +179,32 @@ body {
   background-color: var(--surface);
   color: var(--ink);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv11";
+}
+
+/* Clean, compact display type for every heading across the site */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+button,
+[role="button"],
+select {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: default;
 }
 
 #root {
@@ -196,7 +225,7 @@ video {
 }
 
 .dark ::selection {
-  background-color: rgba(13, 165, 142, 0.3);
+  background-color: rgba(0, 168, 156, 0.32);
 }
 
 :focus-visible {
@@ -229,7 +258,7 @@ html {
   scrollbar-color: var(--line-strong) var(--surface-muted);
 }
 
-/* Dark mode: soft teal ambient glow floating above the page surface.
+/* Dark mode: soft BSI-teal ambient glow floating above the page surface.
    Kept faint and desaturated so it reads as calm ambience, not a glow. */
 .dark body::after {
   content: "";
@@ -240,12 +269,12 @@ html {
   background:
     radial-gradient(
       60% 40% at 50% -5%,
-      rgba(13, 165, 142, 0.05),
+      rgba(0, 168, 156, 0.05),
       transparent 70%
     ),
     radial-gradient(
       50% 35% at 105% 105%,
-      rgba(26, 63, 56, 0.4),
+      rgba(30, 50, 48, 0.4),
       transparent 70%
     );
 }
@@ -262,6 +291,31 @@ html {
   transition-timing-function: ease;
 }
 
+/* Theme toggle — modern circle-reveal via the View Transition API.
+   The old root stays put while the new root expands from the toggle button
+   (origin set by useDarkMode via `--theme-x` / `--theme-y`). Browsers without
+   View Transition support automatically fall back to `.theme-transition`. */
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+  mix-blend-mode: normal;
+  clip-path: circle(150% at var(--theme-x, 50%) var(--theme-y, 50%));
+  animation: theme-circle-reveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes theme-circle-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+  to {
+    clip-path: circle(150% at var(--theme-x, 50%) var(--theme-y, 50%));
+  }
+}
+
 /* Accessibility: honour reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -275,5 +329,11 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Skip the circle-reveal entirely for reduced-motion users */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }

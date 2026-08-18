@@ -46,6 +46,7 @@ export default function Navbar() {
     { label: t("nav.about"), to: "/about", end: false },
     { label: t("nav.services"), to: "/services", end: false, hasMega: true },
     { label: t("nav.products"), to: "/#produk", end: false, isHash: true },
+    { label: t("nav.brosur"), to: "/brosur", end: false },
     { label: t("nav.gallery"), to: "/gallery", end: false },
     { label: t("nav.contact"), to: "/contact", end: false },
   ];
@@ -56,11 +57,11 @@ export default function Navbar() {
 
       <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
         {/* Utility Bar */}
-        <div className="w-full bg-emerald-500 text-white/90 border-b border-emerald-600 dark:bg-surface-muted dark:text-ink-mid dark:border-line">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between text-xs font-medium">
+        <div className="w-full bg-emerald-700 text-white/85 border-b border-emerald-800/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between text-[11px] font-medium tracking-wide">
             <a
               href="tel:14040"
-              className="flex items-center gap-1.5 hover:text-amber-300 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors shrink-0"
+              className="flex items-center gap-1.5 hover:text-white transition-colors shrink-0"
             >
               <FiPhoneCall size={12} />
               <span>{t("nav.bsiCall")}</span>
@@ -70,16 +71,16 @@ export default function Navbar() {
               <DigitalClock
                 showDate
                 dateClassName="hidden min-[480px]:inline"
-                className="text-white/95 dark:text-ink-mid font-mono text-[10px] sm:text-[11px]"
+                className="text-white/80 font-mono text-[10px] sm:text-[11px]"
               />
-              <span className="hidden sm:block h-3 w-px bg-white/20 dark:bg-line-strong" aria-hidden />
+              <span className="hidden sm:block h-3 w-px bg-white/20" aria-hidden />
 
-              <div className="hidden sm:flex items-center gap-3 md:gap-5 text-white/85 dark:text-ink-mid">
+              <div className="hidden sm:flex items-center gap-3 md:gap-5 text-white/75">
                 <a
                   href="https://bsinet.bankbsi.co.id"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-amber-300 dark:hover:text-emerald-400 transition-colors"
+                  className="hover:text-white transition-colors"
                 >
                   {t("nav.netBanking")}
                 </a>
@@ -87,7 +88,7 @@ export default function Navbar() {
                   href="https://bewize.bankbsi.co.id/site/login"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-amber-300 dark:hover:text-emerald-400 transition-colors"
+                  className="hover:text-white transition-colors"
                 >
                   {t("nav.bewize")}
                 </a>
@@ -95,7 +96,7 @@ export default function Navbar() {
                   href="https://www.bankbsi.co.id/products-services/byond"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-amber-300 dark:hover:text-emerald-400 transition-colors"
+                  className="hover:text-white transition-colors"
                 >
                   {t("nav.byond")}
                 </a>
@@ -124,14 +125,14 @@ export default function Navbar() {
             </NavLink>
 
             {/* Desktop Navigation Links */}
-            <ul className="hidden lg:flex items-center gap-1 bg-surface-muted/60 p-1.5 rounded-full border border-line/60">
+            <ul className="hidden lg:flex items-center gap-0.5 bg-surface-muted/70 p-1.5 rounded-full border border-line/70">
               {navLinks.map((link) =>
                 link.isHash ? (
                   <li key={link.to}>
                     <Link
                       to={link.to}
                       onClick={closeDropdown}
-                      className="px-4 py-2 rounded-full text-xs font-semibold text-ink-mid hover:text-emerald-500 hover:bg-white dark:hover:bg-surface-strong transition-all duration-200 block"
+                      className="px-4 py-2 rounded-full text-[13px] font-medium text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-surface-strong transition-all duration-200 block"
                     >
                       {link.label}
                     </Link>
@@ -148,9 +149,9 @@ export default function Navbar() {
                       end={link.end}
                       onClick={closeDropdown}
                       className={({ isActive }) =>
-                        `flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 ${isActive
-                          ? "bg-emerald-500 text-white shadow-sm"
-                          : "text-ink-mid hover:text-emerald-500 hover:bg-white dark:hover:bg-surface-strong"
+                        `flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-200 ${isActive
+                          ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                          : "text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-surface-strong"
                         }`
                       }
                     >
@@ -217,9 +218,9 @@ export default function Navbar() {
                       end={link.end}
                       onClick={closeDropdown}
                       className={({ isActive }) =>
-                        `px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 block ${isActive
-                          ? "bg-emerald-500 text-white shadow-sm"
-                          : "text-ink-mid hover:text-emerald-500 hover:bg-white dark:hover:bg-surface-strong"
+                        `px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-200 block ${isActive
+                          ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                          : "text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-surface-strong"
                         }`
                       }
                     >
@@ -232,7 +233,7 @@ export default function Navbar() {
 
             {/* Right Controls */}
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <div className="hidden sm:flex items-center gap-1 bg-surface-muted/60 p-1 rounded-full border border-line/60">
+              <div className="hidden sm:flex items-center gap-1 bg-surface-muted/70 p-1 rounded-full border border-line/70">
                 <ThemeToggle className="rounded-full text-ink-strong hover:bg-white dark:hover:bg-surface-strong p-2 transition-colors" />
                 <LanguageToggle className="rounded-full text-ink-strong hover:bg-white dark:hover:bg-surface-strong p-2 transition-colors" />
               </div>

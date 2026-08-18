@@ -42,9 +42,17 @@ export default function GalleryPreview() {
               variants={fadeUp}
               className="group relative aspect-[4/3] overflow-hidden rounded-2xl"
             >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${item.accent} transition-transform duration-500 group-hover:scale-105`}
-              />
+              {item.image ? (
+                <img
+                  src={item.image}
+                  alt={tr(item.title)}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${item.accent} transition-transform duration-500 group-hover:scale-105`}
+                />
+              )}
               <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/20" />
               <div className="absolute inset-x-0 bottom-0 p-5">
                 <p className="text-xs font-semibold uppercase tracking-widest text-emerald-200">

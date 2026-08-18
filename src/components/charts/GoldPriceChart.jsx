@@ -14,6 +14,7 @@ import ChartCanvas from "./ChartCanvas";
 import { fadeUp } from "../../utils/animation";
 import { useLanguage } from "../../context/languageContext";
 import { fetchGoldHistory } from "../../api/gold";
+import { isGoldDateHidden } from "../../utils/chartStore";
 import {
   formatFullNumber,
   formatDateTimeWIB,
@@ -136,15 +137,17 @@ export default function GoldPriceChart() {
         ? t("gold.errorNetwork")
         : t("gold.errorInvalid");
 
-  const points = data
-    ? data.points.map((p) => ({
-        label: shortDate(p.date, lang),
-        fullLabel: longDate(p.date, lang),
-        values: [p.price],
-        change: p.change,
-        changePercent: p.changePercent,
-      }))
+  const visiblePoints = data
+    ? data.points.filter((p) => !isGoldDateHidden(p.date))
     : [];
+
+  const points = visiblePoints.map((p) => ({
+    label: shortDate(p.date, lang),
+    fullLabel: longDate(p.date, lang),
+    values: [p.price],
+    change: p.change,
+    changePercent: p.changePercent,
+  }));
 
   const series = [
     {
@@ -220,6 +223,16 @@ export default function GoldPriceChart() {
               <FiRefreshCw size={14} />
               {t("gold.retry")}
             </button>
+          </div>
+        )}
+
+        {state.status === "ready" && data && points.length <= 1 && (
+          <div className="rounded-xl border border-dashed border-line-strong bg-surface-muted px-6 py-10 text-center">
+            <FiGlobe className="mx-auto h-8 w-8 text-ink-faint" aria-hidden="true" />
+            <h4 className="mt-3 text-sm font-semibold text-ink">
+              {t("gold.allHiddenTitle")}
+            </h4>
+            <p className="mt-1 text-sm text-ink-soft">{t("gold.allHiddenDesc")}</p>
           </div>
         )}
 
@@ -339,7 +352,7 @@ export default function GoldPriceChart() {
                 </tr>
               </thead>
               <tbody>
-                {data.points.map((p) => (
+                {visiblePoints.map((p) => (
                   <tr key={p.date}>
                     <td>{longDate(p.date, lang)}</td>
                     <td>Rp {formatFullNumber(p.price, lang)} / {t("gold.unit")}</td>

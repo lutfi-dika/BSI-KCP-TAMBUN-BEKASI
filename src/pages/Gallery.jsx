@@ -76,9 +76,18 @@ export default function Gallery() {
                 aria-label={`${t("gallery.open")} ${tr(item.title)}`}
                 className="group relative aspect-[4/3] overflow-hidden rounded-2xl text-left focus-visible:outline-2 focus-visible:outline-emerald-400"
               >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${item.accent} transition-transform duration-500 group-hover:scale-105`}
-                />
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={tr(item.title)}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${item.accent} transition-transform duration-500 group-hover:scale-105`}
+                  />
+                )}
                 <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/20" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <p className="text-xs font-semibold uppercase tracking-widest text-emerald-200">
@@ -121,16 +130,24 @@ export default function Gallery() {
               className="relative w-full max-w-3xl"
             >
               <div className="overflow-hidden rounded-2xl border border-white/15">
-                <div
-                  className={`relative aspect-[16/10] bg-gradient-to-br ${GALLERY[selected].accent}`}
-                >
-                  <div className="absolute inset-0 bg-black/20" />
-                  <div className="absolute inset-0 flex items-center justify-center px-8">
-                    <span className="text-center text-4xl font-bold text-white/25 sm:text-5xl">
-                      {tr(GALLERY[selected].title)}
-                    </span>
+                {GALLERY[selected].image ? (
+                  <img
+                    src={GALLERY[selected].image}
+                    alt={tr(GALLERY[selected].title)}
+                    className="aspect-[16/10] w-full object-cover"
+                  />
+                ) : (
+                  <div
+                    className={`relative aspect-[16/10] bg-gradient-to-br ${GALLERY[selected].accent}`}
+                  >
+                    <div className="absolute inset-0 bg-black/20" />
+                    <div className="absolute inset-0 flex items-center justify-center px-8">
+                      <span className="text-center text-4xl font-bold text-white/25 sm:text-5xl">
+                        {tr(GALLERY[selected].title)}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               <figcaption className="mt-4 flex items-start justify-between gap-4">

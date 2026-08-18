@@ -17,6 +17,8 @@ import NewsPreview from "../components/home/NewsPreview";
 import FAQPreview from "../components/home/FAQPreview";
 import ContactPreview from "../components/home/ContactPreview";
 import CTA from "../components/home/CTA";
+import ProductRecommendation from "../components/common/ProductRecommendation";
+import FinancingCalculator from "../components/common/FinancingCalculator";
 import Seo, { breadcrumb } from "../components/common/Seo";
 import { useLanguage } from "../context/languageContext";
 
@@ -50,6 +52,8 @@ export default function Home() {
       <GalleryPreview />
       <NewsPreview />
       <FAQPreview />
+      <ProductRecommendation />
+      <FinancingCalculator />
       <ContactPreview />
       <CTA />
     </>

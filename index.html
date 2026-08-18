@@ -36,10 +36,14 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://bsi-kcp-tambun-bekasi.vercel.app/" />
 
-    <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+    <!-- Favicons (Logo BSI) -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -121,7 +125,7 @@
         "name": "BSI KCP Tambun Bekasi",
         "alternateName": "Bank Syariah Indonesia Kantor Cabang Pembantu Tambun",
         "url": "https://bsi-kcp-tambun-bekasi.vercel.app/",
-        "logo": "https://bsi-kcp-tambun-bekasi.vercel.app/favicon.svg",
+        "logo": "https://bsi-kcp-tambun-bekasi.vercel.app/android-chrome-192x192.png",
         "image": "https://bsi-kcp-tambun-bekasi.vercel.app/og-image.png",
         "address": {
           "@type": "PostalAddress",
@@ -157,7 +161,7 @@
       }
     </script>
 
-    <!-- Theme & Language -->
+    <!-- Theme & Language Init -->
     <script>
       (function () {
         try {
@@ -174,7 +178,7 @@
           var m = document.querySelector('meta[name="theme-color"]');
 
           if (m) {
-            m.setAttribute("content", dark ? "#081C18" : "#00847D");
+            m.setAttribute("content", dark ? "#0d1516" : "#00847D");
           }
 
           var l = localStorage.getItem("bsi-lang");

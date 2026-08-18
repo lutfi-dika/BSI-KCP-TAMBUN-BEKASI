@@ -13,6 +13,7 @@ export const GALLERY = [
     },
     category: { id: "Kantor", en: "Office" },
     accent: "from-[#00847D] to-[#063F3B]",
+    image: "/gallery/kantor.webp",
     icon: "building",
   },
   {
@@ -25,31 +26,10 @@ export const GALLERY = [
     category: { id: "Layanan", en: "Services" },
     accent: "from-[#00665F] to-[#00847D]",
     icon: "headset",
+    image: "/gallery/layanan-cs.webp",
   },
   {
     id: 3,
-    title: { id: "ATM BSI", en: "BSI ATM" },
-    caption: {
-      id: "Akses transaksi tunai dan non-tunai 24 jam",
-      en: "24-hour access to cash and cashless transactions",
-    },
-    category: { id: "Fasilitas", en: "Facilities" },
-    accent: "from-[#063F3B] to-[#0A2B27]",
-    icon: "atm",
-  },
-  {
-    id: 4,
-    title: { id: "Edukasi Keuangan Syariah", en: "Sharia Financial Education" },
-    caption: {
-      id: "Kegiatan literasi keuangan untuk masyarakat Tambun",
-      en: "Financial literacy activities for the Tambun community",
-    },
-    category: { id: "Kegiatan", en: "Activities" },
-    accent: "from-[#F2A93C] to-[#00847D]",
-    icon: "education",
-  },
-  {
-    id: 5,
     title: { id: "Pembukaan Rekening Online", en: "Online Account Opening" },
     caption: {
       id: "Buka rekening mudah melalui aplikasi BYOND",
@@ -58,9 +38,10 @@ export const GALLERY = [
     category: { id: "Digital", en: "Digital" },
     accent: "from-[#00847D] to-[#F2A93C]",
     icon: "smartphone",
+    image: "/gallery/Pembukaan Rekening Online.png",
   },
   {
-    id: 6,
+    id: 4,
     title: { id: "Ramadhan & Berbagi", en: "Ramadan & Sharing" },
     caption: {
       id: "Kegiatan sosial dan berbagi bersama masyarakat",
@@ -69,9 +50,10 @@ export const GALLERY = [
     category: { id: "Kegiatan", en: "Activities" },
     accent: "from-[#0A2B27] to-[#00847D]",
     icon: "handshake",
+    image: "/gallery/ramadan-NEW-icon-746-×-560-e1740130488272.webp",
   },
   {
-    id: 7,
+    id: 5,
     title: { id: "Area Teller", en: "Teller Area" },
     caption: {
       id: "Transaksi tunai dan setoran yang aman & nyaman",
@@ -80,16 +62,6 @@ export const GALLERY = [
     category: { id: "Kantor", en: "Office" },
     accent: "from-[#00847D] to-[#00665F]",
     icon: "bank",
-  },
-  {
-    id: 8,
-    title: { id: "Konsultasi Pembiayaan", en: "Financing Consultation" },
-    caption: {
-      id: "Konsultasi produk pembiayaan bersama relationship officer",
-      en: "Financing product consultation with your relationship officer",
-    },
-    category: { id: "Layanan", en: "Services" },
-    accent: "from-[#F2A93C] to-[#063F3B]",
-    icon: "documents",
+    image: "/gallery/area-teller.webp",
   },
 ];

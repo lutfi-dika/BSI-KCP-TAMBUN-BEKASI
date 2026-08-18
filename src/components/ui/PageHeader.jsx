@@ -7,7 +7,7 @@ import { fadeUp, staggerContainer } from "../../utils/animation";
  */
 export default function PageHeader({ kicker, title, description }) {
   return (
-    <section className="relative isolate overflow-hidden bg-surface pt-36 pb-20 lg:pt-44 lg:pb-24">
+    <section className="relative isolate overflow-hidden bg-surface pt-36 pb-16 lg:pt-44 lg:pb-20">
       <div className="pointer-events-none absolute inset-0 -z-20 bg-gradient-to-b from-emerald-50 via-surface to-surface dark:from-surface-muted dark:via-surface dark:to-surface" />
       <div className="pointer-events-none absolute -top-32 right-[-10%] -z-10 h-[480px] w-[480px] rounded-full bg-emerald-500/10 blur-[140px] dark:bg-emerald-500/20" />
       <div
@@ -29,7 +29,7 @@ export default function PageHeader({ kicker, title, description }) {
         >
           <motion.span
             variants={fadeUp}
-            className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/[0.06] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-500"
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-400"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-current" />
             {kicker}

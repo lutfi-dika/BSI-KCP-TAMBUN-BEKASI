@@ -78,6 +78,7 @@ export default function ImageSlider({
                         exit="exit"
                         transition={{ duration: 0.6, ease: EASE }}
                         fetchPriority={index === 0 ? "high" : "auto"}
+                        loading={index === 0 ? "eager" : "lazy"}
                         decoding="async"
                         className="absolute inset-0 block h-full w-full object-contain"
                     />

@@ -4,7 +4,7 @@ import { MotionConfig } from "framer-motion";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import ScrollTop from "./components/layout/ScrollTop";
-import WhatsAppButton from "./components/common/WhatsAppButton";
+import Chatbot from "./components/common/Chatbot";
 import { ThemeProvider } from "./context/themeContext";
 import { LanguageProvider } from "./context/languageContext";
 import AppRoutes from "./routes/AppRoutes";
@@ -40,7 +40,7 @@ export default function App() {
                 <AppRoutes />
               </main>
               <Footer />
-              <WhatsAppButton />
+              <Chatbot />
               <ScrollTop />
             </div>
           </LanguageProvider>

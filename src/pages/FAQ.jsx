@@ -1,6 +1,8 @@
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import PageHeader from "../components/ui/PageHeader";
 import Accordion from "../components/faq/Accordion";
+import SearchBar from "../components/common/SearchBar";
 import CTA from "../components/home/CTA";
 import Seo, { breadcrumb } from "../components/common/Seo";
 import { FAQS } from "../data/faq";
@@ -8,6 +10,18 @@ import { useLanguage } from "../context/languageContext";
 
 export default function FAQ() {
   const { t, tr } = useLanguage();
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return FAQS;
+    return FAQS.filter((f) =>
+      [f.question.id, f.question.en, f.answer.id, f.answer.en]
+        .join(" ")
+        .toLowerCase()
+        .includes(q),
+    );
+  }, [query]);
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -46,7 +60,20 @@ export default function FAQ() {
 
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-3xl px-6">
-          <Accordion items={FAQS} />
+          <div className="mx-auto max-w-xl">
+            <SearchBar value={query} onChange={setQuery} />
+          </div>
+
+          <div className="mt-8">
+            {filtered.length > 0 ? (
+              <Accordion items={filtered} />
+            ) : (
+              <p className="rounded-2xl border border-line bg-surface-card p-8 text-center text-sm text-ink-soft">
+                {t("faq.noResults")}
+              </p>
+            )}
+          </div>
+
           <p className="mt-10 text-center text-sm text-ink-soft">
             {t("faq.otherQuestion")}{" "}
             <a

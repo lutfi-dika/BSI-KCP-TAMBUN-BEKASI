@@ -47,7 +47,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                   <Link
                     to={link.to}
                     onClick={onClose}
-                    className="flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold text-ink-mid hover:text-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30 transition-all"
+                    className="flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-medium text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30 transition-all"
                   >
                     <span>{link.label}</span>
                     <FiArrowRight size={16} className="text-ink-soft" />
@@ -58,9 +58,9 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
                     end={link.end}
                     onClick={onClose}
                     className={({ isActive }) =>
-                      `flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${isActive
-                        ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/20"
-                        : "text-ink-mid hover:text-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30"
+                      `flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-medium transition-all ${isActive
+                        ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                        : "text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30"
                       }`
                     }
                   >

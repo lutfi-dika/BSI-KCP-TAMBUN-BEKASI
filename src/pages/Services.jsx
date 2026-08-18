@@ -30,6 +30,7 @@ import {
   digitalBankingChart,
   hajjUmrahChart,
 } from "../data/chartMock";
+import { resolveServiceChart } from "../utils/chartStore";
 
 function withSeries(chart, tr) {
   return chart.series.map((s) => ({ ...s, name: tr(s.name) }));
@@ -46,6 +47,9 @@ function getCategoryCharts(catId, t, tr) {
   }
 
   if (catId === "pembiayaan") {
+    const consumerData = resolveServiceChart(consumerFinancingChart, "consumer");
+    const microData = resolveServiceChart(microFinancingChart, "micro");
+
     return [
       {
         key: "consumer",
@@ -55,15 +59,13 @@ function getCategoryCharts(catId, t, tr) {
             kicker={t("chartsData.consumer.kicker")}
             title={t("chartsData.consumer.title")}
             description={t("chartsData.consumer.desc")}
-            data={consumerFinancingChart.points}
-            series={withSeries(consumerFinancingChart, tr)}
+            data={consumerData.points}
+            series={withSeries(consumerData, tr)}
             metricLabel={t("chartsData.consumer.metricLabel")}
-            metricValue={unitFormatter(consumerFinancingChart.unit)(
-              consumerFinancingChart.latestValue
-            )}
-            changePercent={consumerFinancingChart.changePercent}
+            metricValue={unitFormatter(consumerData.unit)(consumerData.latestValue)}
+            changePercent={consumerData.changePercent}
             changeLabel={t("gold.changePeriod")}
-            formatter={unitFormatter(consumerFinancingChart.unit)}
+            formatter={unitFormatter(consumerData.unit)}
             ariaLabel={t("chartsData.consumer.chartAria")}
             footnote={t("chartsData.consumer.disclaimer")}
           />
@@ -77,15 +79,13 @@ function getCategoryCharts(catId, t, tr) {
             kicker={t("chartsData.micro.kicker")}
             title={t("chartsData.micro.title")}
             description={t("chartsData.micro.desc")}
-            data={microFinancingChart.points}
-            series={withSeries(microFinancingChart, tr)}
+            data={microData.points}
+            series={withSeries(microData, tr)}
             metricLabel={t("chartsData.micro.metricLabel")}
-            metricValue={unitFormatter(microFinancingChart.unit)(
-              microFinancingChart.latestValue
-            )}
-            changePercent={microFinancingChart.changePercent}
+            metricValue={unitFormatter(microData.unit)(microData.latestValue)}
+            changePercent={microData.changePercent}
             changeLabel={t("gold.changePeriod")}
-            formatter={unitFormatter(microFinancingChart.unit)}
+            formatter={unitFormatter(microData.unit)}
             ariaLabel={t("chartsData.micro.chartAria")}
             footnote={t("chartsData.micro.disclaimer")}
           />
