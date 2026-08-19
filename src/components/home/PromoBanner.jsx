@@ -54,7 +54,7 @@ export default function PromoBanner() {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="mx-auto max-w-7xl px-6">
-        <div className="relative overflow-hidden rounded-[1.75rem] border border-line bg-surface-card shadow-[0_30px_80px_-30px_rgba(0,132,125,0.18)]">
+        <div className="relative overflow-hidden rounded-[1.75rem] border border-line/80 bg-surface-card/90 backdrop-blur-sm shadow-[0_30px_80px_-30px_rgba(0,132,125,0.15)]">
           <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-emerald-50 via-surface-card to-surface-card dark:from-surface-muted dark:via-surface-card dark:to-elevated" />
           <div
             className={`pointer-events-none absolute -right-16 -top-16 -z-10 h-64 w-64 rounded-full blur-[100px] transition-colors duration-700 ${accent.glow}`}
@@ -85,7 +85,7 @@ export default function PromoBanner() {
                 </div>
                 <Link
                   to={promo.href}
-                  className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-600 sm:w-auto"
+                  className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_30px_-12px_rgba(0,132,125,0.5)] transition-all duration-300 hover:bg-emerald-600 hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.6)] sm:w-auto"
                 >
                   {tr(promo.cta)}
                   <FiArrowRight

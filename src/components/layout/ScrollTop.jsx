@@ -24,7 +24,7 @@ export default function ScrollTop() {
       type="button"
       aria-label={t("common.backToTop")}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-6 left-6 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface-card text-ink-strong shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-emerald-500 hover:text-white"
+      className="fixed bottom-6 left-6 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-line/80 bg-surface-card/80 backdrop-blur-sm text-ink-strong shadow-glow transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-emerald-500 hover:text-white hover:shadow-glow-lg"
     >
       <FiArrowUp size={18} />
     </button>

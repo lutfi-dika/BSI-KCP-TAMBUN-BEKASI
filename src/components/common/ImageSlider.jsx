@@ -51,7 +51,7 @@ export default function ImageSlider({
 
     return (
         <div
-            className={`relative w-full overflow-hidden rounded-3xl border border-line bg-surface-card shadow-lg ${className}`}
+            className={`relative w-full overflow-hidden rounded-2xl border border-line/80 bg-surface-card shadow-[0_20px_60px_-20px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.4)] ${className}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >

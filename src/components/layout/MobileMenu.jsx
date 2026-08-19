@@ -21,8 +21,7 @@ export default function MobileMenu({ isOpen, onClose, navLinks }) {
 
       {/* 2. Panel Slide Menu (Muncul dari Kanan) */}
       <div
-        className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-surface dark:bg-surface-muted border-l border-line shadow-2xl flex flex-col justify-between p-6 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-0 right-0 h-full w-[80%] max-w-sm bg-surface/95 dark:bg-surface-muted/95 backdrop-blur-2xl border-l border-line/60 shadow-2xl flex flex-col justify-between p-6 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header Drawer Mobile */}
         <div>

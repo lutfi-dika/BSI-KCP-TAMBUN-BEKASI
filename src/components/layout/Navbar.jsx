@@ -21,7 +21,6 @@ import { useLanguage } from "../../context/languageContext";
 import { SERVICE_OVERVIEW } from "../../data/services";
 import bsiLogo from "../../assets/bsi-logo.png";
 
-
 const MEGA_ICONS = {
   wallet: FiDollarSign,
   hands: FiHeart,
@@ -56,9 +55,9 @@ export default function Navbar() {
     <>
       <div className="h-[108px] w-full" aria-hidden />
 
-      <header className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+      <header className="fixed top-0 left-0 w-full z-50 transition-all duration-500">
         {/* Utility Bar */}
-        <div className="w-full bg-emerald-700 text-white/85 border-b border-emerald-800/50">
+        <div className="w-full bg-emerald-700/95 backdrop-blur-sm text-white/85 border-b border-emerald-800/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between text-[11px] font-medium tracking-wide">
             <a
               href="tel:14040"
@@ -76,12 +75,12 @@ export default function Navbar() {
               />
               <span className="hidden sm:block h-3 w-px bg-white/20" aria-hidden />
 
-              <div className="hidden sm:flex items-center gap-3 md:gap-5 text-white/75">
+              <div className="hidden sm:flex items-center gap-3 md:gap-5 text-white/70">
                 <a
                   href="https://bsinet.bankbsi.co.id"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="link-underline hover:text-white transition-colors"
                 >
                   {t("nav.netBanking")}
                 </a>
@@ -89,7 +88,7 @@ export default function Navbar() {
                   href="https://bewize.bankbsi.co.id/site/login"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="link-underline hover:text-white transition-colors"
                 >
                   {t("nav.bewize")}
                 </a>
@@ -97,7 +96,7 @@ export default function Navbar() {
                   href="https://www.bankbsi.co.id/products-services/byond"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="link-underline hover:text-white transition-colors"
                 >
                   {t("nav.byond")}
                 </a>
@@ -108,15 +107,16 @@ export default function Navbar() {
 
         {/* Main Navbar */}
         <nav
-          className={`w-full h-[72px] transition-all duration-300 ${scrolled
-              ? "bg-white/95 dark:bg-surface-muted/95 backdrop-blur-xl border-b border-gray-200/60 dark:border-line-strong/60 shadow-md"
+          className={`w-full h-[72px] transition-all duration-500 ${
+            scrolled
+              ? "glass border-b border-white/10 dark:border-line-strong/40 shadow-glow"
               : "bg-surface border-b border-line"
-            }`}
+          }`}
         >
           <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-            {/* Logo Hanya Gambar */}
+            {/* Logo */}
             <NavLink to="/" className="flex items-center shrink-0 group">
-              <div className="p-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-100 dark:border-emerald-800/40">
+              <div className="p-1.5 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-100/60 dark:border-emerald-800/30 transition-all duration-300 group-hover:shadow-glow group-hover:border-emerald-500/30">
                 <img
                   src={bsiLogo}
                   alt="Logo BSI"
@@ -125,15 +125,15 @@ export default function Navbar() {
               </div>
             </NavLink>
 
-            {/* Desktop Navigation Links */}
-            <ul className="hidden lg:flex items-center gap-0.5 bg-surface-muted/70 p-1.5 rounded-full border border-line/70">
+            {/* Desktop Navigation */}
+            <ul className="hidden lg:flex items-center gap-0.5 bg-surface-muted/60 dark:bg-surface-muted/40 p-1.5 rounded-full border border-line/50 backdrop-blur-sm">
               {navLinks.map((link) =>
                 link.isHash ? (
                   <li key={link.to}>
                     <Link
                       to={link.to}
                       onClick={closeDropdown}
-                      className="px-4 py-2 rounded-full text-[13px] font-medium text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-surface-strong transition-all duration-200 block"
+                      className="px-4 py-2 rounded-full text-[13px] font-medium text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white/80 dark:hover:bg-surface-strong/80 transition-all duration-300 block"
                     >
                       {link.label}
                     </Link>
@@ -150,28 +150,31 @@ export default function Navbar() {
                       end={link.end}
                       onClick={closeDropdown}
                       className={({ isActive }) =>
-                        `flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-200 ${isActive
-                          ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-                          : "text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-surface-strong"
+                        `flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-300 ${
+                          isActive
+                            ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                            : "text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white/80 dark:hover:bg-surface-strong/80"
                         }`
                       }
                     >
                       {link.label}
                       <FiChevronDown
                         size={13}
-                        className={`transition-transform duration-300 ${megaOpen ? "rotate-180" : ""
-                          }`}
+                        className={`transition-transform duration-300 ${
+                          megaOpen ? "rotate-180" : ""
+                        }`}
                       />
                     </NavLink>
 
                     {/* Mega Menu */}
                     <div
-                      className={`absolute left-1/2 top-full z-50 w-[min(580px,92vw)] -translate-x-1/2 pt-3 transition-all duration-300 ${megaOpen
+                      className={`absolute left-1/2 top-full z-50 w-[min(580px,92vw)] -translate-x-1/2 pt-3 transition-all duration-300 ${
+                        megaOpen
                           ? "pointer-events-auto translate-y-0 opacity-100"
                           : "pointer-events-none translate-y-2 opacity-0"
-                        }`}
+                      }`}
                     >
-                      <div className="rounded-3xl border border-line/80 bg-surface-card backdrop-blur-2xl p-4 shadow-2xl shadow-black/15 ring-1 ring-black/5 max-h-[80vh] overflow-y-auto">
+                      <div className="glass rounded-3xl border border-line/60 p-4 shadow-2xl shadow-black/10 max-h-[80vh] overflow-y-auto">
                         <div className="grid grid-cols-2 gap-2">
                           {SERVICE_OVERVIEW.map((item) => {
                             const Icon = MEGA_ICONS[item.icon] ?? FiTrendingUp;
@@ -180,9 +183,9 @@ export default function Navbar() {
                                 key={item.id}
                                 to={item.href}
                                 onClick={() => setMegaOpen(false)}
-                                className="group flex items-start gap-3.5 rounded-2xl p-3 text-left transition-all hover:bg-emerald-500/10 hover:translate-x-0.5"
+                                className="group flex items-start gap-3.5 rounded-2xl p-3 text-left transition-all duration-300 hover:bg-emerald-500/8 hover:translate-x-0.5"
                               >
-                                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-colors group-hover:bg-emerald-500 group-hover:text-white shadow-sm">
+                                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-glow">
                                   <Icon size={16} />
                                 </span>
                                 <span>
@@ -201,12 +204,12 @@ export default function Navbar() {
                         <Link
                           to="/services"
                           onClick={() => setMegaOpen(false)}
-                          className="mt-3 flex items-center justify-between rounded-2xl bg-surface-muted px-4 py-2.5 text-xs font-bold text-emerald-500 transition-all hover:bg-emerald-500 hover:text-white group"
+                          className="mt-3 flex items-center justify-between rounded-2xl bg-emerald-500/5 dark:bg-emerald-500/10 px-4 py-2.5 text-xs font-bold text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white group"
                         >
                           <span>{t("nav.allServices")}</span>
                           <FiArrowRight
                             size={14}
-                            className="transition-transform group-hover:translate-x-1"
+                            className="transition-transform duration-300 group-hover:translate-x-1"
                           />
                         </Link>
                       </div>
@@ -219,9 +222,10 @@ export default function Navbar() {
                       end={link.end}
                       onClick={closeDropdown}
                       className={({ isActive }) =>
-                        `px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-200 block ${isActive
-                          ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-                          : "text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-surface-strong"
+                        `px-4 py-2 rounded-full text-[13px] font-medium transition-all duration-300 block ${
+                          isActive
+                            ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
+                            : "text-ink-mid hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-white/80 dark:hover:bg-surface-strong/80"
                         }`
                       }
                     >
@@ -234,17 +238,17 @@ export default function Navbar() {
 
             {/* Right Controls */}
             <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <div className="hidden sm:flex items-center gap-1 bg-surface-muted/70 p-1 rounded-full border border-line/70">
-                <ThemeToggle className="rounded-full text-ink-strong hover:bg-white dark:hover:bg-surface-strong p-2 transition-colors" />
-                <LanguageToggle className="rounded-full text-ink-strong hover:bg-white dark:hover:bg-surface-strong p-2 transition-colors" />
+              <div className="hidden sm:flex items-center gap-1 bg-surface-muted/60 dark:bg-surface-muted/40 p-1 rounded-full border border-line/50 backdrop-blur-sm">
+                <ThemeToggle className="rounded-full text-ink-strong hover:bg-white/80 dark:hover:bg-surface-strong/80 p-2 transition-all duration-300" />
+                <LanguageToggle className="rounded-full text-ink-strong hover:bg-white/80 dark:hover:bg-surface-strong/80 p-2 transition-all duration-300" />
               </div>
 
-              {/* Tombol Hamburger Mobile */}
+              {/* Hamburger Mobile */}
               <button
                 type="button"
                 onClick={() => setMobileOpen(true)}
                 aria-label={t("nav.openMenu")}
-                className="lg:hidden flex h-10 w-10 items-center justify-center rounded-full bg-surface-muted text-ink-strong transition-all hover:bg-gray-200 dark:hover:bg-surface-strong active:scale-95"
+                className="lg:hidden flex h-10 w-10 items-center justify-center rounded-full bg-surface-muted/80 text-ink-strong transition-all duration-300 hover:bg-emerald-500 hover:text-white active:scale-95"
               >
                 <FiMenu size={20} />
               </button>
@@ -252,7 +256,7 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Component Slide Mobile Menu */}
+        {/* Mobile Menu */}
         <MobileMenu
           isOpen={mobileOpen}
           onClose={() => setMobileOpen(false)}

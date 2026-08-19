@@ -53,11 +53,11 @@ export default function ServicesPreview() {
           >
             <Link
               to={featured.href}
-              className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-emerald-500/25 bg-gradient-to-br from-emerald-50 via-surface-card to-surface-card p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-10 dark:from-surface-card dark:via-surface-card dark:to-surface-card"
+              className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-50/80 via-surface-card to-surface-card p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-glow-lg sm:p-10 dark:from-surface-card dark:via-surface-card dark:to-surface-card"
             >
               <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-emerald-400/15 blur-3xl transition-transform duration-500 group-hover:scale-110" />
               <div className="flex items-start justify-between gap-4">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-lg transition-all duration-300 group-hover:-translate-y-1">
+                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-glow transition-all duration-300 group-hover:-translate-y-1">
                   <FeaturedIcon size={26} />
                 </span>
                 <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-emerald-500">
@@ -73,7 +73,7 @@ export default function ServicesPreview() {
                 </p>
               </div>
               <div className="mt-8">
-                <span className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-white transition-all duration-300 group-hover:bg-emerald-600">
+                <span className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_30px_-12px_rgba(0,132,125,0.5)] transition-all duration-300 group-hover:bg-emerald-600 group-hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.6)]">
                   {t("common.more")}
                   <FiArrowRight
                     size={15}
@@ -91,10 +91,10 @@ export default function ServicesPreview() {
               <motion.div key={cat.id} variants={fadeUp} className="h-full">
                 <Link
                   to={cat.href}
-                  className="group flex h-full flex-col rounded-2xl border border-line bg-surface-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/25 hover:bg-surface-strong hover:shadow-xl"
+                  className="group flex h-full flex-col rounded-2xl border border-line/80 bg-surface-card/80 backdrop-blur-sm p-6 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/20 hover:bg-surface-strong/80 hover:shadow-glow-lg"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-emerald-500 group-hover:text-white">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-glow">
                       <Icon size={20} />
                     </span>
                     <FiArrowRight

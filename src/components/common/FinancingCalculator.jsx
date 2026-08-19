@@ -22,7 +22,7 @@ const PRESETS = [
 ];
 
 export default function FinancingCalculator() {
-  const { t, tr, lang } = useLanguage();
+  const { tr, lang } = useLanguage();
   const [harga, setHarga] = useState("");
   const [dp, setDp] = useState("");
   const [margin, setMargin] = useState("");

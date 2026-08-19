@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiMessageCircle, FiX, FiSend, FiHeadphones, FiUser, FiMoreVertical } from "react-icons/fi";
+import { FiX, FiSend, FiHeadphones, FiUser, FiMoreVertical } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { useLanguage } from "../../context/languageContext";
 import { KEYWORD_MAP, searchFAQ, searchProducts } from "../../data/aiKnowledge";
@@ -64,7 +64,12 @@ export default function Chatbot() {
   const { t, lang } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const greeting = lang === "en"
+      ? "Hello! I'm BSI Virtual Assistant. How can I help you today?"
+      : "Halo! Saya Asisten Virtual BSI. Ada yang bisa saya bantu hari ini?";
+    return [{ role: "bot", text: greeting }];
+  });
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
@@ -107,14 +112,8 @@ export default function Chatbot() {
   useEffect(() => {
     if (chatOpen) {
       setTimeout(() => inputRef.current?.focus(), 300);
-      if (messages.length === 0) {
-        const greeting = lang === "en"
-          ? "Hello! I'm BSI Virtual Assistant. How can I help you today?"
-          : "Halo! Saya Asisten Virtual BSI. Ada yang bisa saya bantu hari ini?";
-        setMessages([{ role: "bot", text: greeting }]);
-      }
     }
-  }, [chatOpen, lang, messages.length]);
+  }, [chatOpen]);
 
   useEffect(() => {
     const el = chatRef.current;
@@ -159,7 +158,7 @@ export default function Chatbot() {
         type="button"
         onClick={() => { setMenuOpen((v) => !v); setChatOpen(false); }}
         aria-label="Menu"
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/25 transition-colors hover:bg-emerald-600 lg:bottom-8 lg:right-8"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-glow-lg transition-all duration-300 hover:bg-emerald-600 hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.6)] lg:bottom-8 lg:right-8"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -192,7 +191,7 @@ export default function Chatbot() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#25D366]/30 transition-transform hover:scale-105"
+              className="flex items-center gap-2.5 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_-6px_rgba(37,211,102,0.4)] transition-all duration-300 hover:scale-105 hover:shadow-[0_12px_32px_-6px_rgba(37,211,102,0.5)]"
             >
               <FaWhatsapp size={18} />
               WhatsApp
@@ -202,7 +201,7 @@ export default function Chatbot() {
             <button
               type="button"
               onClick={openChat}
-              className="flex items-center gap-2.5 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition-transform hover:scale-105"
+              className="flex items-center gap-2.5 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-white shadow-glow-lg transition-all duration-300 hover:scale-105 hover:bg-emerald-600"
             >
               <FiHeadphones size={18} />
               {lang === "en" ? "AI Assistant" : "Asisten AI"}
@@ -219,7 +218,7 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-line bg-surface-card shadow-2xl sm:right-6 lg:bottom-28 lg:right-8"
+            className="fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-line/60 bg-surface-card/95 backdrop-blur-xl shadow-2xl sm:right-6 lg:bottom-28 lg:right-8"
           >
             <div className="flex items-center gap-3 border-b border-line bg-emerald-500 px-4 py-3 text-white">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
@@ -302,12 +301,12 @@ export default function Chatbot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={lang === "en" ? "Type your question..." : "Ketik pertanyaan Anda..."}
-                className="flex-1 rounded-xl border border-line bg-surface-muted px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
+                className="flex-1 rounded-xl border border-line/60 bg-surface-muted/80 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
               />
               <button
                 type="submit"
                 disabled={!input.trim()}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-white transition-colors hover:bg-emerald-600 disabled:opacity-40"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500 text-white shadow-glow transition-all duration-300 hover:bg-emerald-600 disabled:opacity-40"
               >
                 <FiSend size={16} />
               </button>

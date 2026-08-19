@@ -52,7 +52,7 @@ export default function DigitalBanking() {
                 <motion.li
                   key={labelKey}
                   variants={fadeRight}
-                  className="flex items-center gap-3 rounded-xl border border-line bg-surface-card px-4 py-3 shadow-sm"
+                  className="flex items-center gap-3 rounded-xl border border-line/80 bg-surface-card/80 backdrop-blur-sm px-4 py-3 shadow-sm transition-all duration-300 hover:border-emerald-500/20 hover:shadow-glow"
                 >
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
                     <Icon size={15} />

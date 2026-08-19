@@ -17,10 +17,10 @@ export default function Accordion({ items = [] }) {
         return (
           <div
             key={item.id}
-            className={`overflow-hidden rounded-2xl border transition-colors duration-300 ${
+            className={`overflow-hidden rounded-2xl border transition-all duration-300 ${
               isOpen
-                ? "border-emerald-500/25 bg-surface-card shadow-sm"
-                : "border-line bg-surface-card"
+                ? "border-emerald-500/20 bg-surface-card/80 backdrop-blur-sm shadow-glow"
+                : "border-line/80 bg-surface-card/80 backdrop-blur-sm hover:border-emerald-500/10"
             }`}
           >
             <button

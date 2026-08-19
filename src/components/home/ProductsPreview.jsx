@@ -69,10 +69,10 @@ export default function ProductsPreview() {
               aria-selected={active === cat.id}
               aria-controls="product-panel"
               onClick={() => setActive(cat.id)}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300 ${
                 active === cat.id
-                  ? "bg-emerald-500 text-white shadow-md"
-                  : "border border-line-strong text-ink-mid hover:border-emerald-500 hover:text-emerald-500"
+                  ? "bg-emerald-500 text-white shadow-glow"
+                  : "border border-line-strong/60 text-ink-mid hover:border-emerald-500/50 hover:text-emerald-500 hover:shadow-sm"
               }`}
             >
               {tr(cat.label)}
@@ -106,7 +106,7 @@ export default function ProductsPreview() {
                 >
                   <Link
                     to={product.href}
-                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface-card p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/25 hover:shadow-xl"
+                    className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line/80 bg-surface-card/80 backdrop-blur-sm p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/20 hover:shadow-glow-lg"
                   >
                     <div
                       className={`pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br opacity-0 transition-opacity duration-300 group-hover:opacity-100 ${ACCENT[product.accent]}`}

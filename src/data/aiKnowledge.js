@@ -3,7 +3,6 @@
 
 import { SERVICE_CATEGORIES } from "./services";
 import { FAQS } from "./faq";
-import { BROSUR, BROSUR_CATEGORIES } from "./brochures";
 
 // ── Keyword mappings untuk chatbot ──
 export const KEYWORD_MAP = {
@@ -175,7 +174,6 @@ export function searchFAQ(query, lang = "id") {
   const q = query.toLowerCase();
   return FAQS.find((faq) => {
     const question = faq.question[lang]?.toLowerCase() || "";
-    const answer = faq.answer[lang]?.toLowerCase() || "";
     return question.includes(q) || q.includes(question.slice(0, 10));
   });
 }

@@ -54,9 +54,9 @@ export default function HelpTiles() {
               <motion.div key={item.id} variants={fadeUp}>
                 <Link
                   to={item.href}
-                  className="group flex h-full flex-col items-center gap-3 rounded-2xl border border-line bg-surface-card px-4 py-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/25 hover:bg-surface-strong hover:shadow-lg"
+                  className="group flex h-full flex-col items-center gap-3 rounded-2xl border border-line/80 bg-surface-card/80 backdrop-blur-sm px-4 py-6 text-center transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/25 hover:bg-surface-strong/80 hover:shadow-glow-lg"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:bg-emerald-500 group-hover:text-white">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-glow">
                     <Icon size={19} />
                   </span>
                   <span className="text-sm font-semibold text-ink">

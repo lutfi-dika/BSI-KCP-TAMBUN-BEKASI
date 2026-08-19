@@ -28,10 +28,10 @@ export default function Statistics() {
               variants={fadeUp}
               className="group flex flex-col gap-3 py-10 sm:px-8 sm:first:pl-0 sm:last:pr-0"
             >
-              <span className="font-mono text-xs tracking-[0.3em] text-emerald-500/50">
+              <span className="font-mono text-xs tracking-[0.3em] text-emerald-500/40">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="text-4xl font-bold leading-none tracking-tight text-ink transition-transform duration-500 group-hover:-translate-y-0.5 sm:text-5xl">
+              <span className="text-4xl font-bold leading-none tracking-tight text-ink transition-all duration-500 group-hover:-translate-y-0.5 sm:text-5xl">
                 {tr(stat.value)}
               </span>
               <span className="text-sm font-medium text-ink-mid">

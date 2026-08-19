@@ -65,11 +65,11 @@ export default function WhyBSI() {
             >
               <span
                 aria-hidden
-                className="text-4xl font-extrabold leading-none text-transparent transition-colors duration-300 sm:text-5xl [-webkit-text-stroke:1.5px_var(--color-emerald-500)]"
+                className="text-4xl font-extrabold leading-none text-transparent transition-all duration-300 sm:text-5xl [-webkit-text-stroke:1.5px_var(--color-emerald-500)] group-hover:[-webkit-text-stroke:2px_var(--color-emerald-500)]"
               >
                 {number}
               </span>
-              <span className="hidden h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-emerald-500 group-hover:text-white sm:flex">
+              <span className="hidden h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-glow sm:flex">
                 <Icon size={22} />
               </span>
               <div>

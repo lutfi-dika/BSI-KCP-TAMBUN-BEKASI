@@ -79,7 +79,7 @@ export default function AboutPreview() {
 
               <Link
                 to="/about"
-                className="group mt-8 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-600"
+                className="group mt-8 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_30px_-12px_rgba(0,132,125,0.5)] transition-all duration-300 hover:bg-emerald-600 hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.6)]"
               >
                 {t("aboutPreview.cta")}
                 <FiArrowRight
@@ -115,7 +115,7 @@ export default function AboutPreview() {
               {FACTS.map((item) => (
                 <div
                   key={item.labelKey}
-                  className="rounded-2xl border border-line bg-surface-card p-5 text-center shadow-sm"
+                  className="rounded-2xl border border-line/80 bg-surface-card/80 backdrop-blur-sm p-5 text-center shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-glow"
                 >
                   <p className="text-2xl font-bold text-emerald-500">
                     {item.value}
@@ -129,7 +129,7 @@ export default function AboutPreview() {
 
             <Link
               to="/about"
-              className="group mt-8 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-600"
+              className="group mt-8 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_30px_-12px_rgba(0,132,125,0.5)] transition-all duration-300 hover:bg-emerald-600 hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.6)]"
             >
               {t("aboutPreview.cta2")}
               <FiArrowRight

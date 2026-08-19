@@ -52,7 +52,7 @@ export default function ContactPreview() {
             <motion.div
               key={title}
               variants={fadeUp}
-              className="rounded-2xl border border-line bg-surface-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="rounded-2xl border border-line/80 bg-surface-card/80 backdrop-blur-sm p-6 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glow-lg"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500">
                 <Icon size={20} />
@@ -87,7 +87,7 @@ export default function ContactPreview() {
         <div className="mt-10 text-center">
           <Link
             to="/contact"
-            className="group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-600"
+            className="group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_8px_30px_-12px_rgba(0,132,125,0.5)] transition-all duration-300 hover:bg-emerald-600 hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.6)]"
           >
             {t("contactPreview.viewPage")}
             <FiArrowRight

@@ -22,7 +22,7 @@ export default function GalleryPreview() {
           />
           <Link
             to="/gallery"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-emerald-500 px-5 py-2.5 text-sm font-semibold text-emerald-500 transition-colors hover:bg-emerald-500 hover:text-white"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-emerald-500/30 px-5 py-2.5 text-sm font-semibold text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white hover:shadow-glow"
           >
             {t("common.seeAll")}
             <FiArrowRight size={16} />

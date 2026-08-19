@@ -19,6 +19,9 @@ import ContactPreview from "../components/home/ContactPreview";
 import CTA from "../components/home/CTA";
 import ProductRecommendation from "../components/common/ProductRecommendation";
 import FinancingCalculator from "../components/common/FinancingCalculator";
+import PrayerTimes from "../components/common/PrayerTimes";
+import GoldPawnCalculator from "../components/common/GoldPawnCalculator";
+import DocumentGuide from "../components/common/DocumentGuide";
 import Seo, { breadcrumb } from "../components/common/Seo";
 import { useLanguage } from "../context/languageContext";
 
@@ -43,6 +46,7 @@ export default function Home() {
       {/* <Hero /> */}
       <PromoBanner />
       <HelpTiles />
+      <PrayerTimes />
       <AboutPreview />
       <Statistics />
       <ServicesPreview />
@@ -53,7 +57,9 @@ export default function Home() {
       <NewsPreview />
       <FAQPreview />
       <ProductRecommendation />
+      <GoldPawnCalculator />
       <FinancingCalculator />
+      <DocumentGuide />
       <ContactPreview />
       <CTA />
     </>

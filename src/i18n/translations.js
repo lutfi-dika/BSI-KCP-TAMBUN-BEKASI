@@ -620,6 +620,85 @@ export const translations = {
     "whatsapp.defaultMessage":
       "Assalamualaikum, saya ingin bertanya tentang produk/layanan BSI KCP Tambun.",
     "whatsapp.ariaLabel": "Chat WhatsApp BSI KCP Tambun",
+
+    // ── Prayer Times ─────────────────────────────────────────
+    "prayer.kicker": "Jadwal Sholat",
+    "prayer.title": "Jadwal Sholat Hari Ini",
+    "prayer.desc":
+      "Jadwal sholat wilayah Tambun, Bekasi — membantu Anda menentukan waktu kunjungan ke kantor.",
+    "prayer.location": "Jadwal Sholat Lokal",
+    "prayer.refresh": "Refresh",
+    "prayer.next": "Berikutnya",
+    "prayer.sunrise": "Terbit",
+    "prayer.error":
+      "Gagal memuat jadwal sholat. Periksa koneksi internet Anda.",
+    "prayer.retry": "Coba Lagi",
+    "prayer.disclaimer":
+      "Jadwal sholat dihitung berdasarkan koordinat Tambun, Bekasi (metode Kementerian Agama RI).",
+    "prayer.notifyTitle": "Waktu Sholat",
+    "prayer.notifyBody": "Sudah masuk waktu {prayer}!",
+    "prayer.notifyAdzan": "Adzan",
+    "prayer.notifyReminder": "Pengingat",
+    "prayer.notifyNow": "Waktunya sholat!",
+    "prayer.notifyReminderTitle": "Pengingat Sholat",
+    "prayer.notifyReminderBody": "{minutes} menit lagi masuk waktu {prayer}",
+    "prayer.notifyPermission": "Aktifkan Notifikasi",
+    "prayer.notifyGranted": "Notifikasi aktif",
+    "prayer.notifyDenied": "Notifikasi diblokir browser",
+    "prayer.soundOn": "Suara On",
+    "prayer.soundOff": "Suara Off",
+    "prayer.bannerTitle": "Sudah masuk waktu sholat",
+    "prayer.bannerAction": "Lihat Jadwal",
+
+    // ── Gold Pawn Calculator ─────────────────────────────────
+    "goldCalc.kicker": "Simulasi Gadai Emas",
+    "goldCalc.title": "Kalkulator Gadai Emas",
+    "goldCalc.desc":
+      "Simulasikan perhitungan pinjaman gadai emas berdasarkan berat, harga, dan tenor yang Anda pilih.",
+    "goldCalc.inputTitle": "Parameter Simulasi",
+    "goldCalc.goldType": "Jenis Emas",
+    "goldCalc.weightGram": "Berat (gram)",
+    "goldCalc.pricePerGram": "Harga Emas per Gram (Rp)",
+    "goldCalc.priceHint": "Harga pasar saat ini, bukan tarif resmi BSI",
+    "goldCalc.tenor": "Tenor Gadai",
+    "goldCalc.loanAmount": "Estimasi Pinjaman",
+    "goldCalc.loanHint": "Maksimal",
+    "goldCalc.ofValue": "dari nilai emas",
+    "goldCalc.totalValue": "Nilai Total Emas",
+    "goldCalc.margin": "Margin",
+    "goldCalc.marginTotal": "Total margin",
+    "goldCalc.tenorLabel": "Tenor",
+    "goldCalc.month": "bulan",
+    "goldCalc.totalPay": "Total Pengembalian",
+    "goldCalc.feeBreakdown": "Rincian Biaya",
+    "goldCalc.adminFee": "Biaya Administrasi",
+    "goldCalc.custodyFee": "Biaya Titip Emas",
+    "goldCalc.totalMarginLabel": "Total Margin",
+    "goldCalc.totalCost": "Total yang Harus Dibayar",
+    "goldCalc.noteTitle": "Perlu Diketahui",
+    "goldCalc.note":
+      "Simulasi ini menggunakan estimasi LTV 85%, margin 1.5%/bulan, dan biaya administrasi Rp10.000. Untuk tarif resmi terkini, hubungi BSI Call 14040.",
+    "goldCalc.emptyState": "Masukkan parameter untuk melihat hasil",
+    "goldCalc.emptyHint": "Pilih jenis emas, masukkan harga, dan pilih tenor",
+    "goldCalc.benefit1Title": "Proses Cepat",
+    "goldCalc.benefit1Desc":
+      "Gadai emas BSI dapat diproses dalam waktu singkat di kantor cabang.",
+    "goldCalc.benefit2Title": "Bunga Kompetitif",
+    "goldCalc.benefit2Desc":
+      "Margin gadai emas BSI bersaing dan sesuai prinsip syariah.",
+    "goldCalc.benefit3Title": "Emas Aman",
+    "goldCalc.benefit3Desc":
+      "Emas Anda disimpan dengan aman dan dapat diambil setelah pelunasan.",
+
+    // ── Document Guide ───────────────────────────────────────
+    "docGuide.kicker": "Panduan Dokumen",
+    "docGuide.title": "Dokumen yang Dibutuhkan",
+    "docGuide.desc":
+      "Siapkan dokumen berikut sebelum mengunjungi BSI KCP Tambun untuk proses yang lebih cepat dan lancar.",
+    "docGuide.requiredDocs": "Dokumen yang Diperlukan",
+    "docGuide.tip": "Tips: Bawa dokumen asli dan fotokopi masing-masing 1 lembar.",
+    "docGuide.askUs": "Tanyakan ke CS Kami",
+    "docGuide.orCall": "Atau hubungi BSI Call 14040 untuk informasi persyaratan lengkap.",
   },
 
   en: {
@@ -1235,6 +1314,85 @@ export const translations = {
     "whatsapp.defaultMessage":
       "Assalamualaikum, I would like to ask about BSI KCP Tambun products/services.",
     "whatsapp.ariaLabel": "Chat WhatsApp BSI KCP Tambun",
+
+    // ── Prayer Times ─────────────────────────────────────────
+    "prayer.kicker": "Prayer Times",
+    "prayer.title": "Today's Prayer Times",
+    "prayer.desc":
+      "Prayer times for Tambun, Bekasi — help you plan your visit to the branch office.",
+    "prayer.location": "Local Prayer Times",
+    "prayer.refresh": "Refresh",
+    "prayer.next": "Next",
+    "prayer.sunrise": "Sunrise",
+    "prayer.error":
+      "Failed to load prayer times. Please check your internet connection.",
+    "prayer.retry": "Try Again",
+    "prayer.disclaimer":
+      "Prayer times are calculated based on Tambun, Bekasi coordinates (Indonesian Ministry of Religion method).",
+    "prayer.notifyTitle": "Prayer Time",
+    "prayer.notifyBody": "It's time for {prayer}!",
+    "prayer.notifyAdzan": "Adhan",
+    "prayer.notifyReminder": "Reminder",
+    "prayer.notifyNow": "Time to pray!",
+    "prayer.notifyReminderTitle": "Prayer Reminder",
+    "prayer.notifyReminderBody": "{minutes} minutes until {prayer}",
+    "prayer.notifyPermission": "Enable Notifications",
+    "prayer.notifyGranted": "Notifications enabled",
+    "prayer.notifyDenied": "Notifications blocked by browser",
+    "prayer.soundOn": "Sound On",
+    "prayer.soundOff": "Sound Off",
+    "prayer.bannerTitle": "It's time to pray",
+    "prayer.bannerAction": "View Schedule",
+
+    // ── Gold Pawn Calculator ─────────────────────────────────
+    "goldCalc.kicker": "Gold Pawn Simulation",
+    "goldCalc.title": "Gold Pawn Calculator",
+    "goldCalc.desc":
+      "Simulate your gold pawn loan calculation based on weight, price, and tenor you choose.",
+    "goldCalc.inputTitle": "Simulation Parameters",
+    "goldCalc.goldType": "Gold Type",
+    "goldCalc.weightGram": "Weight (grams)",
+    "goldCalc.pricePerGram": "Gold Price per Gram (IDR)",
+    "goldCalc.priceHint": "Current market price, not official BSI rate",
+    "goldCalc.tenor": "Pawn Tenor",
+    "goldCalc.loanAmount": "Estimated Loan",
+    "goldCalc.loanHint": "Maximum",
+    "goldCalc.ofValue": "of gold value",
+    "goldCalc.totalValue": "Total Gold Value",
+    "goldCalc.margin": "Margin",
+    "goldCalc.marginTotal": "Total margin",
+    "goldCalc.tenorLabel": "Tenor",
+    "goldCalc.month": "months",
+    "goldCalc.totalPay": "Total Repayment",
+    "goldCalc.feeBreakdown": "Fee Breakdown",
+    "goldCalc.adminFee": "Administration Fee",
+    "goldCalc.custodyFee": "Gold Custody Fee",
+    "goldCalc.totalMarginLabel": "Total Margin",
+    "goldCalc.totalCost": "Total Amount to Pay",
+    "goldCalc.noteTitle": "Please Note",
+    "goldCalc.note":
+      "This simulation uses an estimated 85% LTV, 1.5%/month margin, and IDR 10,000 administration fee. For current official rates, contact BSI Call 14040.",
+    "goldCalc.emptyState": "Enter parameters to see results",
+    "goldCalc.emptyHint": "Select gold type, enter price, and choose tenor",
+    "goldCalc.benefit1Title": "Fast Process",
+    "goldCalc.benefit1Desc":
+      "BSI gold pawn can be processed quickly at the branch office.",
+    "goldCalc.benefit2Title": "Competitive Rates",
+    "goldCalc.benefit2Desc":
+      "BSI gold pawn margin is competitive and follows sharia principles.",
+    "goldCalc.benefit3Title": "Safe Storage",
+    "goldCalc.benefit3Desc":
+      "Your gold is securely stored and can be retrieved after settlement.",
+
+    // ── Document Guide ───────────────────────────────────────
+    "docGuide.kicker": "Document Guide",
+    "docGuide.title": "Required Documents",
+    "docGuide.desc":
+      "Prepare the following documents before visiting BSI KCP Tambun for a faster and smoother process.",
+    "docGuide.requiredDocs": "Required Documents",
+    "docGuide.tip": "Tip: Bring original documents and 1 photocopy of each.",
+    "docGuide.askUs": "Ask Our CS",
+    "docGuide.orCall": "Or call BSI Call 14040 for complete requirements.",
   },
 };
 

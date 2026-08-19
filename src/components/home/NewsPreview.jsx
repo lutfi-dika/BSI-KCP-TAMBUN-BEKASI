@@ -24,7 +24,7 @@ export default function NewsPreview() {
           />
           <Link
             to="/news"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-emerald-500 px-5 py-2.5 text-sm font-semibold text-emerald-500 transition-colors hover:bg-emerald-500 hover:text-white"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-emerald-500/30 px-5 py-2.5 text-sm font-semibold text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white hover:shadow-glow"
           >
             {t("newsPreview.allNews")}
             <FiArrowRight size={16} />
@@ -42,7 +42,7 @@ export default function NewsPreview() {
             <motion.article
               key={post.id}
               variants={fadeUp}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              className="group flex flex-col overflow-hidden rounded-2xl border border-line/80 bg-surface-card/80 backdrop-blur-sm shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-glow-lg"
             >
               <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-900">
                 <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(0,163,157,0.4),transparent_55%)]" />

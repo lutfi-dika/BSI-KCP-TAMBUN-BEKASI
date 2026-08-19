@@ -12,7 +12,7 @@ import {
   FiRefreshCw,
 } from "react-icons/fi";
 import { useLanguage } from "../../context/languageContext";
-import { getRecommendations, PRODUCT_RECOMMENDATIONS } from "../../data/aiKnowledge";
+import { getRecommendations } from "../../data/aiKnowledge";
 import { fadeUp } from "../../utils/animation";
 
 const PROFILES = [
@@ -73,7 +73,7 @@ const PROFILES = [
 ];
 
 export default function ProductRecommendation() {
-  const { t, tr, lang } = useLanguage();
+  const { tr, lang } = useLanguage();
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [results, setResults] = useState(null);

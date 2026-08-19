@@ -6,7 +6,6 @@ import { useLanguage } from "../../context/languageContext";
 import footerBg from "../../assets/footer-bg.png";
 import bsiLogo from "../../assets/bsi-logo.png";
 
-
 export default function Footer() {
   const { t, tr } = useLanguage();
   const year = new Date().getFullYear();
@@ -41,20 +40,24 @@ export default function Footer() {
     <footer className="relative isolate overflow-hidden border-t border-white/10 bg-emerald-900 text-gray-200 dark:border-line dark:bg-[#0a0e13]">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center"
+        className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center opacity-60"
         style={{ backgroundImage: `url(${footerBg})` }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-emerald-900/70 dark:bg-[#0a0e13]/85"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-emerald-900/80 via-emerald-900/90 to-emerald-950/95 dark:from-[#0a0e13]/80 dark:via-[#0a0e13]/90 dark:to-[#0a0e13]/95"
       />
+      <div className="pointer-events-none absolute -top-40 right-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-emerald-400/5 blur-[120px]" />
+
       <div className="mx-auto max-w-7xl px-6 pt-20 pb-10">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-[1.4fr_1fr_1fr_1.2fr_1fr]">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2.5">
-              <img src={bsiLogo} alt="BSI Logo" className="h-10 w-10 rounded-xl shadow-lg shadow-emerald-950/30" />
-              <span className="text-sm font-semibold tracking-wide text-white">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
+                <img src={bsiLogo} alt="BSI Logo" className="h-8 w-8 rounded-lg" />
+              </div>
+              <span className="text-sm font-bold tracking-wide text-white">
                 BSI KCP TAMBUN
               </span>
             </div>
@@ -68,14 +71,15 @@ export default function Footer() {
 
           {/* Navigasi */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">{t("footer.navTitle")}</h3>
-            <ul className="mt-5 flex flex-col gap-2.5">
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.navTitle")}</h3>
+            <ul className="mt-5 flex flex-col gap-2">
               {navLinks.map((link) => (
                 <li key={link.to}>
                   <NavLink
                     to={link.to}
-                    className="text-[13px] text-gray-400 transition-all duration-300 hover:pl-1 hover:text-white"
+                    className="text-[13px] text-gray-400 transition-all duration-300 hover:pl-1.5 hover:text-white inline-flex items-center gap-1.5"
                   >
+                    <span className="h-1 w-1 rounded-full bg-emerald-500/0 transition-all duration-300 group-hover:bg-emerald-400" />
                     {link.label}
                   </NavLink>
                 </li>
@@ -85,13 +89,13 @@ export default function Footer() {
 
           {/* Layanan */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">{t("footer.servicesTitle")}</h3>
-            <ul className="mt-5 flex flex-col gap-2.5">
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.servicesTitle")}</h3>
+            <ul className="mt-5 flex flex-col gap-2">
               {serviceLinks.map((link) => (
                 <li key={link.to}>
                   <NavLink
                     to={link.to}
-                    className="text-[13px] text-gray-400 transition-all duration-300 hover:pl-1 hover:text-white"
+                    className="text-[13px] text-gray-400 transition-all duration-300 hover:pl-1.5 hover:text-white"
                   >
                     {link.label}
                   </NavLink>
@@ -102,22 +106,30 @@ export default function Footer() {
 
           {/* Kontak */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">{t("footer.contactTitle")}</h3>
-            <ul className="mt-5 flex flex-col gap-3 text-[13px] text-gray-400">
-              <li className="flex items-start gap-2.5">
-                <FiMapPin size={16} className="mt-0.5 shrink-0 text-emerald-400" />
-                <span>{CONTACT_INFO.address}</span>
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.contactTitle")}</h3>
+            <ul className="mt-5 flex flex-col gap-3.5 text-[13px] text-gray-400">
+              <li className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <FiMapPin size={14} />
+                </span>
+                <span className="leading-relaxed">{CONTACT_INFO.address}</span>
               </li>
-              <li className="flex items-center gap-2.5">
-                <FiPhone size={16} className="shrink-0 text-emerald-400" />
+              <li className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <FiPhone size={14} />
+                </span>
                 <span>{CONTACT_INFO.phone}</span>
               </li>
-              <li className="flex items-center gap-2.5">
-                <FiMail size={16} className="shrink-0 text-emerald-400" />
+              <li className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <FiMail size={14} />
+                </span>
                 <span>{CONTACT_INFO.email}</span>
               </li>
-              <li className="flex items-center gap-2.5">
-                <FiClock size={16} className="shrink-0 text-emerald-400" />
+              <li className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <FiClock size={14} />
+                </span>
                 <span>{tr(CONTACT_INFO.operationalHours)}</span>
               </li>
             </ul>
@@ -125,7 +137,7 @@ export default function Footer() {
 
           {/* Sosial Media */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">{t("footer.socialTitle")}</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.socialTitle")}</h3>
             <p className="mt-5 max-w-xs text-[13px] leading-relaxed text-gray-400">
               {t("footer.socialDesc")}
             </p>
@@ -137,7 +149,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-gray-400 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-400 hover:text-emerald-300"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400/50 hover:bg-emerald-500/10 hover:text-emerald-300 hover:shadow-glow"
                 >
                   <Icon size={15} />
                 </a>
@@ -146,16 +158,16 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Regulatory badges — mirrors the OJK / BI / LPS strip used on bankbsi.co.id */}
+        {/* Regulatory badges */}
         <div className="mt-16 flex flex-col items-center gap-4 border-t border-white/10 pt-8 text-center sm:flex-row sm:justify-between sm:text-left">
           <div className="flex flex-wrap items-center justify-center gap-2.5">
             {[t("footer.regOjk"), t("footer.regBi"), t("footer.regLps")].map(
               (badge) => (
                 <span
                   key={badge}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1.5 text-[11px] font-medium text-gray-400"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-[11px] font-medium text-gray-400 backdrop-blur-sm"
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse-dot" />
                   {badge}
                 </span>
               ),
@@ -170,10 +182,8 @@ export default function Footer() {
         <div className="mt-6 border-t border-white/10 pt-6 text-center">
           <p className="text-xs text-gray-500">
             {t("footer.copyright").replace("{year}", String(year))}
-            <span className="mx-2 opacity-40" aria-hidden="true">
-              ·
-            </span>
-            <NavLink to="/admin" className="transition-colors hover:text-emerald-400">
+            <span className="mx-2 opacity-40" aria-hidden="true">·</span>
+            <NavLink to="/admin" className="link-underline transition-colors hover:text-emerald-400">
               {t("admin.kicker")}
             </NavLink>
           </p>

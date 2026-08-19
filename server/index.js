@@ -1,31 +1,31 @@
 /**
- * Backend API proxy for the BSI KCP Tambun Bekasi site.
+ * Backend API for the BSI KCP Tambun Bekasi site.
  *
- * Serves real gold price data to the React frontend. The frontend only ever
- * talks to this server (`/api/*`).
- *
- * Data source: Yahoo Finance public chart API (keyless) —
- *   - gold price per troy ounce in USD:  GC=F (COMEX gold futures)
- *   - USD to IDR exchange rate:          IDR=X
- * Daily bars are aligned by date and converted to IDR/gram server-side, so
- * the frontend receives one clean IDR/gram series and never talks to Yahoo
- * (avoids CORS and keeps all conversion logic in one place).
- *
- * Config (via `node --env-file-if-exists=.env`):
- *   PORT  optional (default 3001)
- *
- * If the provider fails, the API returns a structured error and the frontend
- * shows an honest "unavailable" state. No fabricated numbers are ever served.
+ * Serves gold price data + CMS content to the React frontend.
+ * The frontend talks to this server (`/api/*`).
  */
 
 import express from "express";
+import helmet from "helmet";
+import cors from "cors";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import fs from "node:fs";
 
+import authRoutes from "./routes/auth.js";
+import adminContentRoutes from "./routes/content.js";
+import publicContentRoutes from "./routes/public.js";
+import uploadRoutes from "./routes/upload.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
+const UPLOAD_DIR = path.join(ROOT, "public", "uploads");
+
+// Ensure upload directory exists
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
 
 const PORT = Number(process.env.PORT || 3001);
 
@@ -40,8 +40,6 @@ const UA_HEADERS = {
 
 /** Periods map to a Yahoo range; cache TTLs keep us polite to the source. */
 const PERIODS = {
-  // "7d" fetches a month then keeps only the last 7 calendar days, because a
-  // plain 5d range can collapse to 2 bars when recent sessions are unsettled.
   "7d": { range: "1mo", days: 7, ttlMs: 3 * 60 * 60 * 1000 },
   "1m": { range: "1mo", ttlMs: 3 * 60 * 60 * 1000 },
   "3m": { range: "3mo", ttlMs: 6 * 60 * 60 * 1000 },
@@ -115,7 +113,9 @@ async function fetchJson(url, timeoutMs = 20000) {
     if (!res.ok) throw new Error(`provider HTTP ${res.status}`);
     const data = await res.json();
     if (data?.chart?.error) {
-      throw new Error(data.chart.error.description || "provider returned error");
+      throw new Error(
+        data.chart.error.description || "provider returned error",
+      );
     }
     return data;
   } finally {
@@ -123,7 +123,6 @@ async function fetchJson(url, timeoutMs = 20000) {
   }
 }
 
-/** Daily { date: "YYYY-MM-DD", close } pairs for a symbol and Yahoo range. */
 async function fetchDaily(symbol, range) {
   const url = `${CHART_URL}/${encodeURIComponent(symbol)}?range=${range}&interval=1d`;
   const data = await fetchJson(url);
@@ -137,9 +136,8 @@ async function fetchDaily(symbol, range) {
   const out = [];
   for (let i = 0; i < timestamps.length; i += 1) {
     const close = closes[i];
-    if (typeof close !== "number" || !Number.isFinite(close) || close <= 0) {
-      continue; // session not closed yet, or gap
-    }
+    if (typeof close !== "number" || !Number.isFinite(close) || close <= 0)
+      continue;
     const date = new Date(timestamps[i] * 1000).toISOString().slice(0, 10);
     out.push({ date, close: Math.round(close * 100) / 100 });
   }
@@ -147,11 +145,6 @@ async function fetchDaily(symbol, range) {
   return out;
 }
 
-/**
- * Gold price per gram in IDR for each date, aligning gold bars (USD/troy oz)
- * with the USD/IDR rate. When IDR has no bar on a gold date, the most recent
- * prior IDR rate is carried forward (rates barely move day to day).
- */
 async function loadHistory(period) {
   const cfg = PERIODS[period];
   const [gold, usdIdr] = await Promise.all([
@@ -167,7 +160,7 @@ async function loadHistory(period) {
       lastIdr = exact;
       return exact;
     }
-    return lastIdr; // carry forward nearest prior rate
+    return lastIdr;
   };
 
   const points = [];
@@ -214,34 +207,121 @@ const sourceInfo = () => ({ name: PROVIDER_NAME, url: PROVIDER_URL });
 
 const app = express();
 app.disable("x-powered-by");
-app.use(express.json());
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  if (req.method === "OPTIONS") return res.sendStatus(204);
-  next();
-});
+// Security headers
+const isProd = process.env.NODE_ENV === "production";
+app.use(
+  helmet({
+    // A real CSP in production limits the blast radius of any XSS that slips
+    // through React's escaping (e.g. via CMS-authored HTML). Left off in dev
+    // because Vite's HMR client needs inline scripts/eval.
+    contentSecurityPolicy: isProd
+      ? {
+          directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'"], // Tailwind/inline styles
+            imgSrc: ["'self'", "data:", "https:"],
+            fontSrc: ["'self'", "data:"],
+            connectSrc: ["'self'", "https://query1.finance.yahoo.com"],
+            objectSrc: ["'none'"],
+            frameAncestors: ["'none'"],
+            baseUri: ["'self'"],
+            formAction: ["'self'"],
+          },
+        }
+      : false,
+    crossOriginEmbedderPolicy: false,
+  }),
+);
 
-/** Lightweight per-IP limiter — generic protection for our own server. */
+// CORS — restrict in production
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["http://localhost:5173", "http://localhost:3001"];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+      if (
+        ALLOWED_ORIGINS.includes(origin) ||
+        process.env.NODE_ENV !== "production"
+      ) {
+        return callback(null, true);
+      }
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  }),
+);
+
+app.use(express.json({ limit: "5mb" }));
+
+// Serve uploaded files
+app.use("/uploads", express.static(UPLOAD_DIR));
+
+// ---------------------------------------------------------------------------
+// Rate limiter
+// ---------------------------------------------------------------------------
 const hitBuckets = new Map();
+const WINDOW_MS = 60_000;
+const MAX_HITS = 120;
+const ADMIN_MAX_HITS = 30;
+
 app.use("/api", (req, res, next) => {
   const ip = req.ip || "unknown";
   const now = Date.now();
-  const windowMs = 60_000;
-  const active = (hitBuckets.get(ip) || []).filter((t) => now - t < windowMs);
-  if (active.length >= 120) {
-    return res.status(429).json({
-      available: false,
-      error: { code: "RATE_LIMIT", message: "Too many requests. Please wait." },
-    });
+  const isAdmin =
+    req.path.startsWith("/auth") ||
+    req.path.startsWith("/services") ||
+    req.path.startsWith("/faqs") ||
+    req.path.startsWith("/news") ||
+    req.path.startsWith("/gallery") ||
+    req.path.startsWith("/brochures") ||
+    req.path.startsWith("/promos") ||
+    req.path.startsWith("/contact") ||
+    req.path.startsWith("/statistics") ||
+    req.path.startsWith("/organization") ||
+    req.path.startsWith("/upload");
+  const limit = isAdmin ? ADMIN_MAX_HITS : MAX_HITS;
+  const key = `${ip}:${isAdmin ? "admin" : "pub"}`;
+  const active = (hitBuckets.get(key) || []).filter((t) => now - t < WINDOW_MS);
+  if (active.length >= limit) {
+    return res.status(429).json({ error: "Too many requests. Please wait." });
   }
   active.push(now);
-  hitBuckets.set(ip, active);
+  hitBuckets.set(key, active);
   next();
 });
 
+// Tighter limiter just for login: brute-forcing a password is the highest-
+// value target on this app, so it gets its own stricter, longer-window cap
+// on top of the general /api limiter above.
+const loginAttempts = new Map();
+const LOGIN_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const LOGIN_MAX_ATTEMPTS = 8;
+
+app.use("/api/auth/login", (req, res, next) => {
+  const ip = req.ip || "unknown";
+  const now = Date.now();
+  const attempts = (loginAttempts.get(ip) || []).filter(
+    (t) => now - t < LOGIN_WINDOW_MS,
+  );
+  if (attempts.length >= LOGIN_MAX_ATTEMPTS) {
+    return res
+      .status(429)
+      .json({ error: "Too many login attempts. Please try again later." });
+  }
+  attempts.push(now);
+  loginAttempts.set(ip, attempts);
+  next();
+});
+
+// ---------------------------------------------------------------------------
+// Health check
+// ---------------------------------------------------------------------------
 app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
@@ -251,6 +331,9 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// ---------------------------------------------------------------------------
+// Gold price API
+// ---------------------------------------------------------------------------
 app.get("/api/gold/history", async (req, res) => {
   const period = String(req.query.period || "7d");
 
@@ -262,8 +345,10 @@ app.get("/api/gold/history", async (req, res) => {
   }
 
   try {
-    const result = await withCache(`gold:${period}`, PERIODS[period].ttlMs, () =>
-      loadHistory(period)
+    const result = await withCache(
+      `gold:${period}`,
+      PERIODS[period].ttlMs,
+      () => loadHistory(period),
     );
 
     const points = result.value;
@@ -290,8 +375,7 @@ app.get("/api/gold/history", async (req, res) => {
       source: sourceInfo(),
       scope: {
         level: "global",
-        note:
-          "Gold futures (GC=F) in USD per troy ounce, converted using the USD/IDR rate (IDR=X). Not BSI branch data.",
+        note: "Gold futures (GC=F) in USD per troy ounce, converted using the USD/IDR rate (IDR=X). Not BSI branch data.",
       },
       cache: {
         ttlMs: result.ttlMs,
@@ -311,6 +395,14 @@ app.get("/api/gold/history", async (req, res) => {
   }
 });
 
+// ---------------------------------------------------------------------------
+// CMS routes
+// ---------------------------------------------------------------------------
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminContentRoutes);
+app.use("/api/public", publicContentRoutes);
+app.use("/api/upload", uploadRoutes);
+
 // Serve the production build if it exists (SPA fallback).
 if (fs.existsSync(DIST)) {
   app.use(express.static(DIST));
@@ -327,6 +419,9 @@ if (fs.existsSync(DIST)) {
 }
 
 app.listen(PORT, () => {
-  console.log(`[api] gold proxy listening on http://localhost:${PORT}`);
+  console.log(`[api] BSI KCP Tambun API listening on http://localhost:${PORT}`);
   console.log(`[api] provider: ${PROVIDER_NAME} (keyless)`);
+  console.log(
+    `[api] CMS: /api/admin/* (auth required), /api/public/* (public)`,
+  );
 });

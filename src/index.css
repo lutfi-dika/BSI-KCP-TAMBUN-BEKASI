@@ -316,6 +316,154 @@ html {
   }
 }
 
+/* ── Modern UI Utilities ─────────────────────────────────────── */
+
+/* Animated gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-emerald-500), var(--color-emerald-400), var(--color-gold-500), var(--color-emerald-500));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Glass card effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+  background: rgba(23, 39, 38, 0.7);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Glow hover effect for cards */
+.glow-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 132, 125, 0.08),
+    transparent 40%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glow-hover:hover::before {
+  opacity: 1;
+}
+
+/* Modern shadow tokens */
+.shadow-glow {
+  box-shadow:
+    0 0 0 1px rgba(0, 132, 125, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 132, 125, 0.08);
+}
+
+.shadow-glow-lg {
+  box-shadow:
+    0 0 0 1px rgba(0, 132, 125, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 12px 32px rgba(0, 132, 125, 0.12);
+}
+
+.dark .shadow-glow {
+  box-shadow:
+    0 0 0 1px rgba(0, 168, 156, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 168, 156, 0.06);
+}
+
+.dark .shadow-glow-lg {
+  box-shadow:
+    0 0 0 1px rgba(0, 168, 156, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 12px 32px rgba(0, 168, 156, 0.08);
+}
+
+/* Modern divider with gradient */
+.divider-gradient {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+
+/* Animated underline */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-emerald-500);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Pulse dot animation */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Shimmer loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--surface-muted) 25%,
+    var(--surface-card) 50%,
+    var(--surface-muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
 /* Accessibility: honour reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   html {

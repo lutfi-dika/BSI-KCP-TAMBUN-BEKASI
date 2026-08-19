@@ -33,7 +33,7 @@ export default function CTA() {
       >
         <motion.span
           variants={fadeUp}
-          className="inline-flex items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-400"
+            className="inline-flex items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/[0.07] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-current" />
           {t("cta.badge")}
@@ -58,7 +58,7 @@ export default function CTA() {
         >
           <Link
             to="/contact"
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_-12px_rgba(0,132,125,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-600 sm:w-auto"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_-12px_rgba(0,132,125,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.65)] hover:bg-emerald-600 sm:w-auto"
           >
             {t("cta.contact")}
             <FiArrowRight
@@ -68,7 +68,7 @@ export default function CTA() {
           </Link>
           <Link
             to="/contact"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-line-strong bg-surface-card px-7 py-3.5 text-sm font-semibold text-ink-strong transition-colors duration-300 hover:border-emerald-500/40 hover:text-emerald-500 sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-line-strong/60 bg-surface-card/60 backdrop-blur-sm px-7 py-3.5 text-sm font-semibold text-ink-strong transition-all duration-300 hover:border-emerald-500/40 hover:text-emerald-500 hover:shadow-glow sm:w-auto"
           >
             <FiMapPin size={16} />
             {t("cta.location")}
