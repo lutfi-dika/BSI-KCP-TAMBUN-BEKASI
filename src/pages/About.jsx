@@ -20,22 +20,36 @@ import CTA from "../components/home/CTA";
 import SectionTitle from "../components/common/SectionTitle";
 import Seo, { breadcrumb } from "../components/common/Seo";
 import OrganizationChart from "../components/about/OrganizationChart";
-import {
-  EASE,
-  fadeUp,
-  fadeLeft,
-  staggerContainer,
-} from "../utils/animation";
+import { EASE, fadeUp, fadeLeft, staggerContainer } from "../utils/animation";
 import { useLanguage } from "../context/languageContext";
 import historyBanner from "../assets/history.jpg";
-import heroImage from "../assets/bsi-logo.png";
 
 const MILESTONES = [
-  { dateKey: "about.m1Date", titleKey: "about.m1Title", textKey: "about.m1Text" },
-  { dateKey: "about.m2Date", titleKey: "about.m2Title", textKey: "about.m2Text" },
-  { dateKey: "about.m3Date", titleKey: "about.m3Title", textKey: "about.m3Text" },
-  { dateKey: "about.m4Date", titleKey: "about.m4Title", textKey: "about.m4Text" },
-  { dateKey: "about.m5Date", titleKey: "about.m5Title", textKey: "about.m5Text" },
+  {
+    dateKey: "about.m1Date",
+    titleKey: "about.m1Title",
+    textKey: "about.m1Text",
+  },
+  {
+    dateKey: "about.m2Date",
+    titleKey: "about.m2Title",
+    textKey: "about.m2Text",
+  },
+  {
+    dateKey: "about.m3Date",
+    titleKey: "about.m3Title",
+    textKey: "about.m3Text",
+  },
+  {
+    dateKey: "about.m4Date",
+    titleKey: "about.m4Title",
+    textKey: "about.m4Text",
+  },
+  {
+    dateKey: "about.m5Date",
+    titleKey: "about.m5Title",
+    textKey: "about.m5Text",
+  },
 ];
 
 const HISTORY_PARAGRAPHS = [
@@ -92,12 +106,20 @@ function StarMark({ className = "", strokeWidth = 1.4 }) {
       aria-hidden="true"
     >
       <rect
-        x="8" y="8" width="24" height="24"
-        stroke="currentColor" strokeWidth={strokeWidth}
+        x="8"
+        y="8"
+        width="24"
+        height="24"
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
       />
       <rect
-        x="8" y="8" width="24" height="24"
-        stroke="currentColor" strokeWidth={strokeWidth}
+        x="8"
+        y="8"
+        width="24"
+        height="24"
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
         transform="rotate(45 20 20)"
       />
     </svg>
@@ -183,7 +205,10 @@ export default function About() {
               variants={fadeLeft}
               className="flex items-center justify-center gap-3 lg:justify-start"
             >
-              <StarMark className="h-4 w-4 shrink-0 text-gold-500" strokeWidth={2} />
+              <StarMark
+                className="h-4 w-4 shrink-0 text-gold-500"
+                strokeWidth={2}
+              />
               <span className="h-px w-10 bg-line-strong" />
               <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-ink-mid">
                 {t("about.kicker")}
@@ -211,18 +236,21 @@ export default function About() {
               {t("about.body2")}
             </motion.p>
 
-            <motion.ul
-              variants={fadeUp}
-              className="mt-8 space-y-3"
-            >
-              {[t("about.check1"), t("about.check2"), t("about.check3"), t("about.check4")].map(
-                (item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <FiCheckCircle size={20} className="mt-0.5 shrink-0 text-emerald-500" />
-                    <span className="text-sm text-ink-mid">{item}</span>
-                  </li>
-                ),
-              )}
+            <motion.ul variants={fadeUp} className="mt-8 space-y-3">
+              {[
+                t("about.check1"),
+                t("about.check2"),
+                t("about.check3"),
+                t("about.check4"),
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <FiCheckCircle
+                    size={20}
+                    className="mt-0.5 shrink-0 text-emerald-500"
+                  />
+                  <span className="text-sm text-ink-mid">{item}</span>
+                </li>
+              ))}
             </motion.ul>
 
             <motion.div
@@ -252,9 +280,19 @@ export default function About() {
               variants={fadeUp}
               className="mx-auto mt-11 flex max-w-lg flex-wrap justify-center gap-y-5 border-t border-line pt-6 lg:mx-0 lg:justify-start"
             >
-              <StatItem first label={t("hero.infoStatus")} value={t("hero.infoStatusValue")} />
-              <StatItem label={t("hero.infoSupervised")} value={t("hero.infoSupervisedValue")} />
-              <StatItem label={t("hero.infoDeposit")} value={t("hero.infoDepositValue")} />
+              <StatItem
+                first
+                label={t("hero.infoStatus")}
+                value={t("hero.infoStatusValue")}
+              />
+              <StatItem
+                label={t("hero.infoSupervised")}
+                value={t("hero.infoSupervisedValue")}
+              />
+              <StatItem
+                label={t("hero.infoDeposit")}
+                value={t("hero.infoDepositValue")}
+              />
             </motion.div>
           </motion.div>
 
@@ -294,11 +332,11 @@ export default function About() {
                 >
                   <div className="overflow-hidden rounded-2xl border border-line/80 bg-surface-card shadow-[0_40px_100px_-30px_rgba(0,132,125,0.3)]">
                     <img
-                      src={heroImage}
+                      src="https://i.pinimg.com/474x/69/9f/b6/699fb67c0b9a6620e6824ad5040f797c.jpg"
                       alt={t("about.title")}
                       fetchPriority="high"
                       decoding="async"
-                      className="aspect-[4/3.3] w-full object-cover sm:aspect-[4/4.2] lg:aspect-[4/4.6]"
+                      className="aspect-[4/3] w-full object-cover"
                     />
                   </div>
                 </div>
@@ -307,7 +345,11 @@ export default function About() {
                 {!prefersReducedMotion && (
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 48, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 48,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="pointer-events-none absolute -right-5 -top-5 z-20 h-16 w-16 text-gold-500/25 dark:text-gold-400/25 sm:-right-7 sm:-top-7 sm:h-20 sm:w-20"
                   >
                     <StarMark strokeWidth={1} className="h-full w-full" />
@@ -321,7 +363,10 @@ export default function About() {
                   transition={{ duration: 0.7, delay: 0.6, ease: EASE }}
                   className="absolute -bottom-8 left-2 z-30 flex items-center gap-3 rounded-md border-2 border-emerald-500/70 bg-surface-card px-5 py-3.5 shadow-[0_20px_50px_-16px_rgba(0,132,125,0.4)] sm:left-6 sm:-bottom-9"
                 >
-                  <StarMark className="h-7 w-7 shrink-0 text-gold-500" strokeWidth={1.6} />
+                  <StarMark
+                    className="h-7 w-7 shrink-0 text-gold-500"
+                    strokeWidth={1.6}
+                  />
                   <span>
                     <span className="block text-sm font-semibold text-ink">
                       {t("about.commitTitle")}
@@ -381,8 +426,12 @@ export default function About() {
                   <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 transition-all duration-300 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-glow">
                     <FiShield size={22} />
                   </span>
-                  <h3 className="mt-5 text-base font-semibold text-ink">{t(nameKey)}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{t(descKey)}</p>
+                  <h3 className="mt-5 text-base font-semibold text-ink">
+                    {t(nameKey)}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                    {t(descKey)}
+                  </p>
                 </motion.div>
               ))}
             </motion.div>
@@ -427,15 +476,23 @@ export default function About() {
               <div>
                 <ol className="relative space-y-10 border-l-2 border-emerald-500/20 pl-8">
                   {MILESTONES.map(({ dateKey, titleKey, textKey }) => (
-                    <motion.li key={titleKey} variants={fadeUp} className="relative">
+                    <motion.li
+                      key={titleKey}
+                      variants={fadeUp}
+                      className="relative"
+                    >
                       <span className="absolute -left-[41px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-emerald-500 bg-surface-card">
                         <span className="h-2 w-2 rounded-full bg-emerald-500" />
                       </span>
                       <p className="text-xs font-bold uppercase tracking-widest text-emerald-500">
                         {t(dateKey)}
                       </p>
-                      <h3 className="mt-1 text-lg font-semibold text-ink">{t(titleKey)}</h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{t(textKey)}</p>
+                      <h3 className="mt-1 text-lg font-semibold text-ink">
+                        {t(titleKey)}
+                      </h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">
+                        {t(textKey)}
+                      </p>
                     </motion.li>
                   ))}
                 </ol>
@@ -479,7 +536,9 @@ export default function About() {
                   <p className="text-3xl font-bold tracking-tight text-emerald-500">
                     {t(valueKey)}
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{t(labelKey)}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                    {t(labelKey)}
+                  </p>
                 </motion.div>
               ))}
             </motion.div>

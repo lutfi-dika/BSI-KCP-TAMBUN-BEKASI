@@ -7,7 +7,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { FiArrowRight, FiPhoneCall } from "react-icons/fi";
-import Aboutimage from "../../assets/bsi-logo.png";
+// import Aboutimage from "../../assets/bsi-logo.png";
 import {
   EASE,
   fadeUp,
@@ -225,7 +225,7 @@ export default function Hero() {
               >
                 <div className="overflow-hidden rounded-2xl border border-line/80 bg-surface-card shadow-[0_40px_100px_-30px_rgba(0,132,125,0.3)]">
                   <img
-                    src={Aboutimage}
+                    src="https://i.pinimg.com/474x/69/9f/b6/699fb67c0b9a6620e6824ad5040f797c.jpg"
                     alt={t("hero.imageAlt")}
                     fetchPriority="high"
                     decoding="async"
