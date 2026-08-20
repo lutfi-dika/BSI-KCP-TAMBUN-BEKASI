@@ -9,8 +9,8 @@
       "destination": "https://bsi-kcp-tambun-bekasi.onrender.com/uploads/:path*"
     },
     {
-      "source": "/((?!api|uploads).*)",
-      "destination": "/maintenance.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
