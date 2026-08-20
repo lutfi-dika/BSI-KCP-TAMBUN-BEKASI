@@ -28,7 +28,7 @@ export default function DigitalBanking() {
     <section className="relative isolate overflow-hidden bg-surface-muted py-16 lg:py-20">
       <div className="pointer-events-none absolute -bottom-40 left-[-10%] -z-10 h-[380px] w-[380px] rounded-full bg-emerald-500/10 blur-[130px]" />
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-12">
           {/* Copy */}
           <motion.div

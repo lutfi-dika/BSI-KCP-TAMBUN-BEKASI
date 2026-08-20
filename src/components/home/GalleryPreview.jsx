@@ -12,7 +12,7 @@ export default function GalleryPreview() {
 
   return (
     <section className="bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
           <SectionTitle
             align="left"
@@ -34,7 +34,7 @@ export default function GalleryPreview() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
           {preview.map((item) => (
             <motion.div

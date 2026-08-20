@@ -33,7 +33,7 @@ export default function HelpTiles() {
 
   return (
     <section className="border-t border-line bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <SectionTitle
           align="left"
           kicker={t("help.kicker")}

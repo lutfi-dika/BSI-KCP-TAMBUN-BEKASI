@@ -15,7 +15,7 @@ export default function SectionTitle({
       : "text-left items-start";
 
   return (
-    <div className={`flex max-w-3xl flex-col ${alignClass}`}>
+    <div className={`flex max-w-4xl flex-col ${alignClass}`}>
       {kicker && (
         <span className="group inline-flex items-center gap-2.5 rounded-full border border-emerald-500/15 bg-emerald-500/[0.07] px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
           <span className="relative flex h-2 w-2">
@@ -35,7 +35,7 @@ export default function SectionTitle({
         {title}
       </h2>
       {description && (
-        <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-soft">
+        <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-ink-soft">
           {description}
         </p>
       )}

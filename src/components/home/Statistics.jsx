@@ -13,8 +13,8 @@ export default function Statistics() {
   const { tr } = useLanguage();
 
   return (
-    <section className="relative bg-surface pb-24 pt-4 lg:pb-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="relative bg-surface pb-20 pt-4 lg:pb-24">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <motion.div
           variants={staggerContainer(0.1, 0.05)}
           initial="hidden"

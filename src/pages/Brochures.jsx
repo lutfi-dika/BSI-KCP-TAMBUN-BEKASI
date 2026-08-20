@@ -16,8 +16,9 @@ import {
   FiFileText,
   FiSearch,
   FiArrowRight,
+  FiLoader,
 } from "react-icons/fi";
-import { BROSUR, BROSUR_CATEGORIES, countByCategory } from "../data/brochures";
+import { usePublicData } from "../hooks/usePublicData";
 import PageHeader from "../components/ui/PageHeader";
 import SectionTitle from "../components/common/SectionTitle";
 import SearchBar from "../components/common/SearchBar";
@@ -43,16 +44,20 @@ const CATEGORY_ICONS = {
   emas: FiAward,
 };
 
-function categoryById(id) {
-  return BROSUR_CATEGORIES.find((c) => c.id === id);
+function categoryById(id, categories) {
+  return categories.find((c) => c.id === id);
 }
 
 function subcategoryById(cat, id) {
   return cat?.subcategories?.find((s) => s.id === id);
 }
 
-function buildHaystack(b) {
-  const cat = categoryById(b.category);
+function countByCategory(categoryId, brochures) {
+  return brochures.filter((b) => b.category === categoryId).length;
+}
+
+function buildHaystack(b, categories) {
+  const cat = categoryById(b.category, categories);
   const sub = subcategoryById(cat, b.subcategory);
   return [
     b.title,
@@ -67,9 +72,9 @@ function buildHaystack(b) {
     .toLowerCase();
 }
 
-function BrochureModal({ brochure, onClose, t, tr }) {
+function BrochureModal({ brochure, categories, onClose, t, tr }) {
   const closeRef = useRef(null);
-  const cat = categoryById(brochure.category);
+  const cat = categoryById(brochure.category, categories);
   const sub = subcategoryById(cat, brochure.subcategory);
 
   useEffect(() => {
@@ -111,9 +116,11 @@ function BrochureModal({ brochure, onClose, t, tr }) {
       >
         <div className="flex items-start justify-between gap-4 border-b border-line bg-surface-muted px-6 py-5">
           <div className="min-w-0">
-            <span className="inline-flex items-center rounded-full border border-emerald-500/15 bg-emerald-500/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-emerald-500">
-              {tr(cat.title)}
-            </span>
+            {cat && (
+              <span className="inline-flex items-center rounded-full border border-emerald-500/15 bg-emerald-500/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-emerald-500">
+                {tr(cat.title)}
+              </span>
+            )}
             <h3 className="mt-2 text-xl font-bold leading-snug text-ink">
               {brochure.title}
             </h3>
@@ -203,8 +210,8 @@ function BrochureModal({ brochure, onClose, t, tr }) {
   );
 }
 
-function BrochureCard({ brochure, onOpen, t, tr }) {
-  const cat = categoryById(brochure.category);
+function BrochureCard({ brochure, categories, onOpen, t, tr }) {
+  const cat = categoryById(brochure.category, categories);
   const sub = subcategoryById(cat, brochure.subcategory);
   const Icon = BROSUR_ICONS[brochure.icon] ?? FiFileText;
 
@@ -229,9 +236,11 @@ function BrochureCard({ brochure, onOpen, t, tr }) {
             </span>
           </div>
         )}
-        <span className="absolute left-3 top-3 inline-flex items-center rounded-full border border-white/20 bg-black/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur">
-          {tr(cat.title)}
-        </span>
+        {cat && (
+          <span className="absolute left-3 top-3 inline-flex items-center rounded-full border border-white/20 bg-black/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white backdrop-blur">
+            {tr(cat.title)}
+          </span>
+        )}
       </div>
 
       {/* Content */}
@@ -287,13 +296,17 @@ export default function Brochures() {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(null);
 
+  const { data, loading, error } = usePublicData("/brochures", null);
+  const categories = data?.categories || [];
+  const brochures = data?.brochures || [];
+
   const q = query.trim().toLowerCase();
 
   const filtered = useMemo(() => {
-    let result = BROSUR;
-    if (q) result = result.filter((b) => buildHaystack(b).includes(q));
+    let result = brochures;
+    if (q) result = result.filter((b) => buildHaystack(b, categories).includes(q));
     return result;
-  }, [q]);
+  }, [q, brochures, categories]);
 
   const grouped = !q;
 
@@ -321,189 +334,206 @@ export default function Brochures() {
         description={t("brosur.desc")}
       />
 
-      {/* Kategori utama */}
-      <section className="bg-surface py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <SectionTitle
-            kicker={t("brosur.categoriesKicker")}
-            title={t("brosur.categoriesTitle")}
-            description={t("brosur.categoriesDesc")}
-          />
+      {loading ? (
+        <section className="bg-surface py-32">
+          <div className="flex items-center justify-center">
+            <FiLoader className="animate-spin text-emerald-500" size={32} />
+          </div>
+        </section>
+      ) : error ? (
+        <section className="bg-surface py-32">
+          <div className="text-center text-red-500">{error}</div>
+        </section>
+      ) : (
+        <>
+          {/* Kategori utama */}
+          <section className="bg-surface py-16 lg:py-20">
+            <div className="mx-auto max-w-7xl px-6">
+              <SectionTitle
+                kicker={t("brosur.categoriesKicker")}
+                title={t("brosur.categoriesTitle")}
+                description={t("brosur.categoriesDesc")}
+              />
 
-          <motion.div
-            variants={staggerContainer(0.1, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3"
+              <motion.div
+                variants={staggerContainer(0.1, 0.1)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-60px" }}
+                className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3"
+              >
+                {categories.map((cat) => {
+                  const Icon = CATEGORY_ICONS[cat.id] ?? FiTrendingUp;
+                  return (
+                    <motion.div
+                      key={cat.id}
+                      variants={fadeUp}
+                      className="group flex flex-col items-start rounded-2xl border border-line bg-surface-card p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/25 hover:shadow-lg"
+                    >
+                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 transition-colors duration-300 group-hover:bg-emerald-500 group-hover:text-white">
+                        <Icon size={22} />
+                      </span>
+                      <h3 className="mt-5 text-lg font-bold text-ink transition-colors group-hover:text-emerald-500">
+                        {tr(cat.title)}
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                        {tr(cat.description)}
+                      </p>
+                      <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-surface-muted px-3 py-1 text-xs font-semibold text-ink-mid">
+                        {countLabel(countByCategory(cat.id, brochures))}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Pencarian, filter, dan daftar brosur */}
+          <section
+            id="brosur-results"
+            className="scroll-mt-24 border-t border-line bg-surface-muted py-16 lg:py-20"
           >
-            {BROSUR_CATEGORIES.map((cat) => {
-              const Icon = CATEGORY_ICONS[cat.id] ?? FiTrendingUp;
-              return (
-                <motion.div
-                  key={cat.id}
-                  variants={fadeUp}
-                  className="group flex flex-col items-start rounded-2xl border border-line bg-surface-card p-6 text-left transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/25 hover:shadow-lg"
-                >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500 transition-colors duration-300 group-hover:bg-emerald-500 group-hover:text-white">
-                    <Icon size={22} />
-                  </span>
-                  <h3 className="mt-5 text-lg font-bold text-ink transition-colors group-hover:text-emerald-500">
-                    {tr(cat.title)}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                    {tr(cat.description)}
-                  </p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-surface-muted px-3 py-1 text-xs font-semibold text-ink-mid">
-                    {countLabel(countByCategory(cat.id))}
-                  </span>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Pencarian, filter, dan daftar brosur */}
-      <section
-        id="brosur-results"
-        className="scroll-mt-24 border-t border-line bg-surface-muted py-16 lg:py-20"
-      >
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mx-auto max-w-xl">
-            <SearchBar
-              value={query}
-              onChange={setQuery}
-              placeholder={t("brosur.searchPlaceholder")}
-            />
-          </div>
-
-          {/* Hasil */}
-          <div className="mt-10">
-            {filtered.length > 0 ? (
-              grouped ? (
-                <div className="flex flex-col gap-12">
-                  {BROSUR_CATEGORIES.map((cat) => {
-                    const items = BROSUR.filter((b) => b.category === cat.id);
-                    if (items.length === 0) return null;
-
-                    const hasSub =
-                      cat.subcategories.length > 0 &&
-                      cat.subcategories.some((s) =>
-                        items.some((b) => b.subcategory === s.id)
-                      );
-
-                    return (
-                      <div key={cat.id}>
-                        <div className="flex items-center gap-3">
-                          <h3 className="text-xl font-bold text-ink sm:text-2xl">
-                            {tr(cat.title)}
-                          </h3>
-                          <span className="h-px flex-1 bg-line-strong" aria-hidden />
-                          <span className="text-xs font-medium text-ink-faint">
-                            {countLabel(items.length)}
-                          </span>
-                        </div>
-
-                        {hasSub ? (
-                          <div className="mt-8 flex flex-col gap-8">
-                            {cat.subcategories.map((sub) => {
-                              const subItems = items.filter(
-                                (b) => b.subcategory === sub.id
-                              );
-                              if (subItems.length === 0) return null;
-                              return (
-                                <div key={sub.id}>
-                                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-600 dark:text-gold-500">
-                                    {tr(sub.title)}
-                                  </p>
-                                  <motion.div
-                                    variants={staggerContainer(0.08, 0.05)}
-                                    initial="hidden"
-                                    whileInView="show"
-                                    viewport={{ once: true, margin: "-60px" }}
-                                    className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                                  >
-                                    {subItems.map((b) => (
-                                      <BrochureCard
-                                        key={b.id}
-                                        brochure={b}
-                                        onOpen={() => setActive(b)}
-                                        t={t}
-                                        tr={tr}
-                                      />
-                                    ))}
-                                  </motion.div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        ) : (
-                          <motion.div
-                            variants={staggerContainer(0.08, 0.05)}
-                            initial="hidden"
-                            whileInView="show"
-                            viewport={{ once: true, margin: "-60px" }}
-                            className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                          >
-                            {items.map((b) => (
-                              <BrochureCard
-                                key={b.id}
-                                brochure={b}
-                                onOpen={() => setActive(b)}
-                                t={t}
-                                tr={tr}
-                              />
-                            ))}
-                          </motion.div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <motion.div
-                  variants={staggerContainer(0.06, 0.05)}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: "-60px" }}
-                  className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                >
-                  {filtered.map((b) => (
-                    <BrochureCard
-                      key={b.id}
-                      brochure={b}
-                      onOpen={() => setActive(b)}
-                      t={t}
-                      tr={tr}
-                    />
-                  ))}
-                </motion.div>
-              )
-            ) : (
-              <div className="mx-auto max-w-md rounded-2xl border border-line bg-surface-card px-6 py-14 text-center">
-                <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
-                  <FiSearch size={24} />
-                </span>
-                <h3 className="mt-5 text-lg font-bold text-ink">
-                  {t("brosur.notFound")}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                  {t("brosur.notFoundDesc")}
-                </p>
-                <button
-                  type="button"
-                  onClick={resetAll}
-                  className="mt-6 inline-flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-5 py-2.5 text-sm font-semibold text-emerald-500 transition-colors hover:bg-emerald-500 hover:text-white"
-                >
-                  <FiArrowRight size={15} />
-                  {t("brosur.reset")}
-                </button>
+            <div className="mx-auto max-w-7xl px-6">
+              <div className="mx-auto max-w-xl">
+                <SearchBar
+                  value={query}
+                  onChange={setQuery}
+                  placeholder={t("brosur.searchPlaceholder")}
+                />
               </div>
-            )}
-          </div>
-        </div>
-      </section>
+
+              {/* Hasil */}
+              <div className="mt-10">
+                {filtered.length > 0 ? (
+                  grouped ? (
+                    <div className="flex flex-col gap-12">
+                      {categories.map((cat) => {
+                        const items = brochures.filter((b) => b.category === cat.id);
+                        if (items.length === 0) return null;
+
+                        const hasSub =
+                          cat.subcategories.length > 0 &&
+                          cat.subcategories.some((s) =>
+                            items.some((b) => b.subcategory === s.id)
+                          );
+
+                        return (
+                          <div key={cat.id}>
+                            <div className="flex items-center gap-3">
+                              <h3 className="text-xl font-bold text-ink sm:text-2xl">
+                                {tr(cat.title)}
+                              </h3>
+                              <span className="h-px flex-1 bg-line-strong" aria-hidden />
+                              <span className="text-xs font-medium text-ink-faint">
+                                {countLabel(items.length)}
+                              </span>
+                            </div>
+
+                            {hasSub ? (
+                              <div className="mt-8 flex flex-col gap-8">
+                                {cat.subcategories.map((sub) => {
+                                  const subItems = items.filter(
+                                    (b) => b.subcategory === sub.id
+                                  );
+                                  if (subItems.length === 0) return null;
+                                  return (
+                                    <div key={sub.id}>
+                                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-600 dark:text-gold-500">
+                                        {tr(sub.title)}
+                                      </p>
+                                      <motion.div
+                                        variants={staggerContainer(0.08, 0.05)}
+                                        initial="hidden"
+                                        whileInView="show"
+                                        viewport={{ once: true, margin: "-60px" }}
+                                        className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                                      >
+                                        {subItems.map((b) => (
+                                          <BrochureCard
+                                            key={b.id}
+                                            brochure={b}
+                                            categories={categories}
+                                            onOpen={() => setActive(b)}
+                                            t={t}
+                                            tr={tr}
+                                          />
+                                        ))}
+                                      </motion.div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              <motion.div
+                                variants={staggerContainer(0.08, 0.05)}
+                                initial="hidden"
+                                whileInView="show"
+                                viewport={{ once: true, margin: "-60px" }}
+                                className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                              >
+                                {items.map((b) => (
+                                  <BrochureCard
+                                    key={b.id}
+                                    brochure={b}
+                                    categories={categories}
+                                    onOpen={() => setActive(b)}
+                                    t={t}
+                                    tr={tr}
+                                  />
+                                ))}
+                              </motion.div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <motion.div
+                      variants={staggerContainer(0.06, 0.05)}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, margin: "-60px" }}
+                      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    >
+                      {filtered.map((b) => (
+                        <BrochureCard
+                          key={b.id}
+                          brochure={b}
+                          categories={categories}
+                          onOpen={() => setActive(b)}
+                          t={t}
+                          tr={tr}
+                        />
+                      ))}
+                    </motion.div>
+                  )
+                ) : (
+                  <div className="mx-auto max-w-md rounded-2xl border border-line bg-surface-card px-6 py-14 text-center">
+                    <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
+                      <FiSearch size={24} />
+                    </span>
+                    <h3 className="mt-5 text-lg font-bold text-ink">
+                      {t("brosur.notFound")}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+                      {t("brosur.notFoundDesc")}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={resetAll}
+                      className="mt-6 inline-flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-5 py-2.5 text-sm font-semibold text-emerald-500 transition-colors hover:bg-emerald-500 hover:text-white"
+                    >
+                      <FiArrowRight size={15} />
+                      {t("brosur.reset")}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
 
       <CTA />
 
@@ -511,6 +541,7 @@ export default function Brochures() {
         {active && (
           <BrochureModal
             brochure={active}
+            categories={categories}
             onClose={() => setActive(null)}
             t={t}
             tr={tr}

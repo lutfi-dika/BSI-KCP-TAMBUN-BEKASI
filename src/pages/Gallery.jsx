@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiX, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { GALLERY } from "../data/gallery";
+import { FiX, FiChevronLeft, FiChevronRight, FiLoader } from "react-icons/fi";
+import { usePublicData } from "../hooks/usePublicData";
 import PageHeader from "../components/ui/PageHeader";
 import Seo, { breadcrumb } from "../components/common/Seo";
 import { fadeUp, staggerContainer } from "../utils/animation";
@@ -10,18 +10,19 @@ import { useLanguage } from "../context/languageContext";
 export default function Gallery() {
   const { t, tr } = useLanguage();
   const [selected, setSelected] = useState(null);
+  const { data: gallery, loading, error } = usePublicData("/gallery", []);
 
   const close = useCallback(() => setSelected(null), []);
   const next = useCallback(
-    () => setSelected((cur) => (cur === null ? null : (cur + 1) % GALLERY.length)),
-    [],
+    () => setSelected((cur) => (cur === null || !gallery ? null : (cur + 1) % gallery.length)),
+    [gallery],
   );
   const prev = useCallback(
     () =>
       setSelected((cur) =>
-        cur === null ? null : (cur - 1 + GALLERY.length) % GALLERY.length,
+        cur === null || !gallery ? null : (cur - 1 + gallery.length) % gallery.length,
       ),
-    [],
+    [gallery],
   );
 
   // Keyboard navigation + scroll lock while modal is open
@@ -60,56 +61,66 @@ export default function Gallery() {
 
       <section className="bg-surface py-20">
         <div className="mx-auto max-w-7xl px-6">
-          <motion.div
-            variants={staggerContainer(0.06, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {GALLERY.map((item, index) => (
-              <motion.button
-                key={item.id}
-                variants={fadeUp}
-                type="button"
-                onClick={() => setSelected(index)}
-                aria-label={`${t("gallery.open")} ${tr(item.title)}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-2xl text-left focus-visible:outline-2 focus-visible:outline-emerald-400"
+          {loading ? (
+            <div className="flex h-40 items-center justify-center">
+              <FiLoader className="animate-spin text-emerald-500" size={32} />
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500">{error}</div>
+          ) : (
+            <>
+              <motion.div
+                variants={staggerContainer(0.06, 0.1)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-60px" }}
+                className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
               >
-                {item.image ? (
-                  <img
-                    src={item.image}
-                    alt={tr(item.title)}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${item.accent} transition-transform duration-500 group-hover:scale-105`}
-                  />
-                )}
-                <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/20" />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-emerald-200">
-                    {tr(item.category)}
-                  </p>
-                  <h2 className="mt-1 text-base font-semibold text-white">
-                    {tr(item.title)}
-                  </h2>
-                </div>
-              </motion.button>
-            ))}
-          </motion.div>
+                {gallery.map((item, index) => (
+                  <motion.button
+                    key={item.id}
+                    variants={fadeUp}
+                    type="button"
+                    onClick={() => setSelected(index)}
+                    aria-label={`${t("gallery.open")} ${tr(item.title)}`}
+                    className="group relative aspect-[4/3] overflow-hidden rounded-2xl text-left focus-visible:outline-2 focus-visible:outline-emerald-400"
+                  >
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt={tr(item.title)}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${item.accent} transition-transform duration-500 group-hover:scale-105`}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/20" />
+                    <div className="absolute inset-x-0 bottom-0 p-5">
+                      <p className="text-xs font-semibold uppercase tracking-widest text-emerald-200">
+                        {tr(item.category)}
+                      </p>
+                      <h2 className="mt-1 text-base font-semibold text-white">
+                        {tr(item.title)}
+                      </h2>
+                    </div>
+                  </motion.button>
+                ))}
+              </motion.div>
 
-          <p className="mt-10 text-center text-xs text-ink-faint">
-            {t("gallery.note")}
-          </p>
+              <p className="mt-10 text-center text-xs text-ink-faint">
+                {t("gallery.note")}
+              </p>
+            </>
+          )}
         </div>
       </section>
 
       {/* Fullscreen modal */}
       <AnimatePresence>
-        {selected !== null && (
+        {selected !== null && gallery && gallery[selected] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -117,7 +128,7 @@ export default function Gallery() {
             transition={{ duration: 0.25 }}
             role="dialog"
             aria-modal="true"
-            aria-label={tr(GALLERY[selected].title)}
+            aria-label={tr(gallery[selected].title)}
             onClick={close}
             className="fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm sm:p-10"
           >
@@ -130,20 +141,20 @@ export default function Gallery() {
               className="relative w-full max-w-3xl"
             >
               <div className="overflow-hidden rounded-2xl border border-white/15">
-                {GALLERY[selected].image ? (
+                {gallery[selected].image ? (
                   <img
-                    src={GALLERY[selected].image}
-                    alt={tr(GALLERY[selected].title)}
+                    src={gallery[selected].image}
+                    alt={tr(gallery[selected].title)}
                     className="aspect-[16/10] w-full object-cover"
                   />
                 ) : (
                   <div
-                    className={`relative aspect-[16/10] bg-gradient-to-br ${GALLERY[selected].accent}`}
+                    className={`relative aspect-[16/10] bg-gradient-to-br ${gallery[selected].accent}`}
                   >
                     <div className="absolute inset-0 bg-black/20" />
                     <div className="absolute inset-0 flex items-center justify-center px-8">
                       <span className="text-center text-4xl font-bold text-white/25 sm:text-5xl">
-                        {tr(GALLERY[selected].title)}
+                        {tr(gallery[selected].title)}
                       </span>
                     </div>
                   </div>
@@ -153,17 +164,17 @@ export default function Gallery() {
               <figcaption className="mt-4 flex items-start justify-between gap-4">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-emerald-300">
-                    {tr(GALLERY[selected].category)}
+                    {tr(gallery[selected].category)}
                   </p>
                   <h3 className="mt-1 text-lg font-semibold text-white">
-                    {tr(GALLERY[selected].title)}
+                    {tr(gallery[selected].title)}
                   </h3>
                   <p className="mt-1 text-sm text-white/60">
-                    {tr(GALLERY[selected].caption)}
+                    {tr(gallery[selected].caption)}
                   </p>
                 </div>
                 <p className="shrink-0 text-xs text-white/40">
-                  {selected + 1} / {GALLERY.length}
+                  {selected + 1} / {gallery.length}
                 </p>
               </figcaption>
 

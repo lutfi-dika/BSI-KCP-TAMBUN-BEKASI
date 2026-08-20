@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { FiBriefcase, FiUsers } from "react-icons/fi";
-import { BRANCH_STRUCTURE } from "../../data/organization";
+import { FiBriefcase, FiUsers, FiLoader } from "react-icons/fi";
+import { usePublicData } from "../../hooks/usePublicData";
 import { useLanguage } from "../../context/languageContext";
 import { fadeUp, staggerContainer } from "../../utils/animation";
 
@@ -42,6 +42,21 @@ function Connector() {
 
 export default function OrganizationChart() {
   const { t, tr } = useLanguage();
+  const { data: BRANCH_STRUCTURE, loading, error } = usePublicData("/organization", null);
+
+  if (loading) {
+    return (
+      <div className="flex h-40 items-center justify-center">
+        <FiLoader className="animate-spin text-emerald-500" size={32} />
+      </div>
+    );
+  }
+
+  if (error || !BRANCH_STRUCTURE) {
+    return (
+      <div className="text-center text-red-500">{error || "Data not available"}</div>
+    );
+  }
 
   return (
     <motion.div

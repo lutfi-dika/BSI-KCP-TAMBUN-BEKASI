@@ -13,7 +13,7 @@ export default function FAQPreview() {
 
   return (
     <section className="bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-3xl px-6">
+      <div className="mx-auto max-w-[800px] px-6 sm:px-10 lg:px-10">
         <SectionTitle
           kicker={t("faqPreview.kicker")}
           title={t("faqPreview.title")}

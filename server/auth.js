@@ -25,20 +25,22 @@ const JWT_REFRESH_SECRET = resolveSecret("JWT_REFRESH_SECRET", "refresh tokens")
 const ACCESS_TOKEN_EXPIRY = "15m";
 const REFRESH_TOKEN_EXPIRY = "7d";
 
-export function generateAccessToken(user) {
-  return jwt.sign(
-    { id: user.id, email: user.email, role: user.role },
-    JWT_SECRET,
-    { expiresIn: ACCESS_TOKEN_EXPIRY }
-  );
+/** Create a fingerprint from IP + User-Agent for session binding */
+export function createFingerprint(ip, userAgent) {
+  const raw = `${ip || "unknown"}|${(userAgent || "").slice(0, 200)}`;
+  return crypto.createHash("sha256").update(raw).digest("hex").slice(0, 32);
 }
 
-export function generateRefreshToken(user) {
-  return jwt.sign(
-    { id: user.id, email: user.email },
-    JWT_REFRESH_SECRET,
-    { expiresIn: REFRESH_TOKEN_EXPIRY }
-  );
+export function generateAccessToken(user, fingerprint) {
+  const payload = { id: user.id, email: user.email, role: user.role };
+  if (fingerprint) payload.fp = fingerprint;
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY });
+}
+
+export function generateRefreshToken(user, fingerprint) {
+  const payload = { id: user.id, email: user.email };
+  if (fingerprint) payload.fp = fingerprint;
+  return jwt.sign(payload, JWT_REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRY });
 }
 
 export function verifyAccessToken(token) {

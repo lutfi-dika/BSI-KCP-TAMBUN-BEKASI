@@ -11,11 +11,39 @@ import cors from "cors";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import fs from "node:fs";
+import db from "./db.js";
 
 import authRoutes from "./routes/auth.js";
 import adminContentRoutes from "./routes/content.js";
 import publicContentRoutes from "./routes/public.js";
 import uploadRoutes from "./routes/upload.js";
+
+// ---------------------------------------------------------------------------
+// IP Whitelist middleware for admin routes
+// ---------------------------------------------------------------------------
+function adminIpWhitelist(req, res, next) {
+  // Skip whitelist check for auth routes (login, captcha, lockout-status)
+  if (req.path.startsWith("/auth/")) {
+    return next();
+  }
+
+  try {
+    const settings = db.prepare("SELECT ip_whitelist_enabled FROM admin_settings WHERE id = 1").get();
+    if (!settings || !settings.ip_whitelist_enabled) return next();
+
+    const ip = req.ip || req.connection?.remoteAddress || "unknown";
+    const allowed = db.prepare("SELECT id FROM admin_ip_whitelist WHERE ip = ? AND enabled = 1").get(ip);
+    if (!allowed) {
+      return res.status(403).json({
+        error: "IP Anda tidak diizinkan mengakses panel admin",
+        code: "IP_NOT_WHITELISTED",
+      });
+    }
+  } catch {
+    // If DB error, don't block — fail open for availability
+  }
+  next();
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
@@ -263,7 +291,7 @@ app.use(express.json({ limit: "5mb" }));
 app.use("/uploads", express.static(UPLOAD_DIR));
 
 // ---------------------------------------------------------------------------
-// Rate limiter
+// Rate limiter — general API
 // ---------------------------------------------------------------------------
 const hitBuckets = new Map();
 const WINDOW_MS = 60_000;
@@ -289,31 +317,51 @@ app.use("/api", (req, res, next) => {
   const key = `${ip}:${isAdmin ? "admin" : "pub"}`;
   const active = (hitBuckets.get(key) || []).filter((t) => now - t < WINDOW_MS);
   if (active.length >= limit) {
-    return res.status(429).json({ error: "Too many requests. Please wait." });
+    return res.status(429).json({ error: "Too many requests. Please wait.", code: "RATE_LIMITED" });
   }
   active.push(now);
   hitBuckets.set(key, active);
   next();
 });
 
-// Tighter limiter just for login: brute-forcing a password is the highest-
-// value target on this app, so it gets its own stricter, longer-window cap
-// on top of the general /api limiter above.
+// ---------------------------------------------------------------------------
+// Stricter rate limiter for login — progressive lockout per IP
+// 1st-5th attempt: allowed
+// 6th-10th: 30s cooldown
+// 11th+: 5 min cooldown
+// ---------------------------------------------------------------------------
 const loginAttempts = new Map();
 const LOGIN_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const LOGIN_MAX_ATTEMPTS = 8;
+const LOGIN_HARD_LIMIT = 20; // Absolute max per window
 
 app.use("/api/auth/login", (req, res, next) => {
-  const ip = req.ip || "unknown";
+  const ip = req.ip || req.connection?.remoteAddress || "unknown";
   const now = Date.now();
   const attempts = (loginAttempts.get(ip) || []).filter(
     (t) => now - t < LOGIN_WINDOW_MS,
   );
+
+  if (attempts.length >= LOGIN_HARD_LIMIT) {
+    return res
+      .status(429)
+      .json({
+        error: "Terlalu banyak percobaan dari IP ini. Coba lagi dalam 15 menit.",
+        code: "IP_HARD_BAN",
+        lockout: { remainingMs: LOGIN_WINDOW_MS, remainingMin: 15 },
+      });
+  }
+
   if (attempts.length >= LOGIN_MAX_ATTEMPTS) {
     return res
       .status(429)
-      .json({ error: "Too many login attempts. Please try again later." });
+      .json({
+        error: "Terlalu banyak percobaan login. Tunggu beberapa saat.",
+        code: "IP_RATE_LIMITED",
+        lockout: { remainingMs: 60000, remainingMin: 1 },
+      });
   }
+
   attempts.push(now);
   loginAttempts.set(ip, attempts);
   next();
@@ -396,12 +444,12 @@ app.get("/api/gold/history", async (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
-// CMS routes
+// CMS routes — admin routes get IP whitelist protection
 // ---------------------------------------------------------------------------
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminContentRoutes);
+app.use("/api/admin", adminIpWhitelist, adminContentRoutes);
+app.use("/api/upload", adminIpWhitelist, uploadRoutes);
 app.use("/api/public", publicContentRoutes);
-app.use("/api/upload", uploadRoutes);
 
 // Serve the production build if it exists (SPA fallback).
 if (fs.existsSync(DIST)) {

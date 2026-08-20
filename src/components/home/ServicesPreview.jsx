@@ -32,7 +32,7 @@ export default function ServicesPreview() {
 
   return (
     <section id="layanan" className="scroll-mt-24 bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <SectionTitle
           kicker={t("servicesPreview.kicker")}
           title={t("servicesPreview.title")}
@@ -44,7 +44,7 @@ export default function ServicesPreview() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+          className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
         >
           {/* Featured service — large bento card */}
           <motion.div

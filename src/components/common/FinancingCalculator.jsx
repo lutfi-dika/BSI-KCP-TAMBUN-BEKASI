@@ -59,8 +59,8 @@ export default function FinancingCalculator() {
 
   return (
     <section className="border-t border-line bg-surface-muted py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }}           className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center rounded-full border border-emerald-500/15 bg-emerald-500/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-emerald-500">
             <FiSliders size={12} className="mr-1" />
             {lang === "en" ? "AI Calculator" : "Kalkulator AI"}
@@ -75,7 +75,7 @@ export default function FinancingCalculator() {
           </p>
         </motion.div>
 
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} className="mx-auto mt-10 max-w-4xl">
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }}           className="mx-auto mt-10 max-w-5xl">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
             <div className="lg:col-span-2">
               <div className="rounded-2xl border border-line bg-surface-card p-5">

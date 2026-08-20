@@ -30,8 +30,8 @@ export default function AboutPreview() {
   const { t } = useLanguage();
 
   return (
-    <section id="tentang" className="scroll-mt-20 bg-surface-muted py-24 lg:py-32">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="tentang" className="scroll-mt-20 bg-surface-muted py-20 lg:py-24">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Visual */}
           <motion.div

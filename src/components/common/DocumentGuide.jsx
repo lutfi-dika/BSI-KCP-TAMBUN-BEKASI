@@ -192,13 +192,13 @@ export default function DocumentGuide() {
 
   return (
     <section className="border-t border-line bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mx-auto max-w-2xl text-center"
+          className="mx-auto max-w-3xl text-center"
         >
           <SectionTitle
             kicker={t("docGuide.kicker")}
@@ -212,7 +212,7 @@ export default function DocumentGuide() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mx-auto mt-10 max-w-3xl"
+          className="mx-auto mt-10 max-w-4xl"
         >
           <div className="flex flex-col gap-3">
             {SERVICE_DOCS.map((item) => (

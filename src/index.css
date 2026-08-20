@@ -5,30 +5,20 @@
 
 @theme {
   --font-sans:
-    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    "Lato", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* BSI brand teal — overrides Tailwind's default emerald scale so every
-     emerald-* utility in the codebase renders the official brand color instead
-     of generic emerald. Primary reference: BSI brand teal #00847D. */
-  --color-emerald-50: #eefaf8;
-  --color-emerald-100: #dcf5f1;
-  --color-emerald-200: #b9efe9;
-  --color-emerald-300: #7ee8dd;
-  --color-emerald-400: #00a0a0;
-  --color-emerald-500: #00847d;
-  --color-emerald-600: #00665f;
-  --color-emerald-700: #00524b;
-  --color-emerald-800: #04514c;
-  --color-emerald-900: #063f3b;
-  --color-emerald-950: #04211d;
+  --color-emerald-400: #00A39D;
+  --color-emerald-500: #00847D;
+  --color-emerald-600: #00665F;
+  --color-emerald-700: #24A29F;
+  --color-emerald-800: #00524B;
+  --color-emerald-900: #04211D;
 
-  /* Gold accent — official BSI brand gold. #f0b43c is the brighter logo gold,
-     #c9972c the deep gold used for text/highlights (Hasanah Card, badges,
-     Hajj/Umrah). Matches the `--chart-4` token per theme. */
-  --color-gold-400: #f0b43c;
-  --color-gold-500: #c9972c;
-  --color-gold-600: #b07d1a;
-  --color-gold-700: #8a5f12;
+  /* Gold accent — BSI brand orange-gold #F6AD3C */
+  --color-gold-400: #F6AD3C;
+  --color-gold-500: #F0852F;
+  --color-gold-600: #e09c35;
+  --color-gold-700: #B0851E;
 }
 
 /* Theme tokens that switch with dark mode at runtime.
@@ -61,21 +51,21 @@
   font-family: var(--font-sans);
   color-scheme: light;
   --surface: #ffffff;
-  --surface-muted: #f9fafb;
+  --surface-muted: #F0F8FA;
   --surface-card: #ffffff;
   --surface-strong: #ffffff;
   --elevated: #ffffff;
-  --ink: #111827;
-  --ink-strong: #1f2937;
-  --ink-mid: #4b5563;
+  --ink: #333333;
+  --ink-strong: #25282B;
+  --ink-mid: #474A4D;
   --ink-soft: #6b7280;
   --ink-faint: #9ca3af;
-  --line: #f3f4f6;
-  --line-strong: #e5e7eb;
+  --line: #F2F2F2;
+  --line-strong: #E8E8E8;
   --chart-1: #00847d;
   --chart-2: #14b8a6;
   --chart-3: #64748b;
-  --chart-4: #c9972c;
+  --chart-4: #F6AD3C;
   --shadow-sm-val:
     0 1px 2px 0 rgb(16 24 40 / 0.04), 0 1px 3px 0 rgb(16 24 40 / 0.06);
   --shadow-md-val:
@@ -371,33 +361,23 @@ html {
   opacity: 1;
 }
 
-/* Modern shadow tokens */
+/* Modern shadow tokens — BSI style */
 .shadow-glow {
-  box-shadow:
-    0 0 0 1px rgba(0, 132, 125, 0.05),
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 12px rgba(0, 132, 125, 0.08);
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.24);
 }
 
 .shadow-glow-lg {
-  box-shadow:
-    0 0 0 1px rgba(0, 132, 125, 0.08),
-    0 4px 8px rgba(0, 0, 0, 0.04),
-    0 12px 32px rgba(0, 132, 125, 0.12);
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.24);
+  transform: scale(1.02);
 }
 
 .dark .shadow-glow {
-  box-shadow:
-    0 0 0 1px rgba(0, 168, 156, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    0 4px 12px rgba(0, 168, 156, 0.06);
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.24);
 }
 
 .dark .shadow-glow-lg {
-  box-shadow:
-    0 0 0 1px rgba(0, 168, 156, 0.1),
-    0 4px 8px rgba(0, 0, 0, 0.2),
-    0 12px 32px rgba(0, 168, 156, 0.08);
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.24);
+  transform: scale(1.02);
 }
 
 /* Modern divider with gradient */

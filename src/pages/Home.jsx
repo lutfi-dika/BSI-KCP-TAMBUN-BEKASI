@@ -37,10 +37,11 @@ export default function Home() {
         jsonLd={breadcrumb([{ name: t("nav.home"), path: "/" }])}
       />
       <h1 className="sr-only">{t("home.h1")}</h1>
-      <div className="mx-auto max-w-7xl px-6 pt-6">
+      <div className="w-screen relative left-1/2 -translate-x-1/2 pt-6">
         <ImageSlider
           alt={t("slider.alt")}
           images={[slider1, slider2, slider3, slider4]}
+          className="rounded-none border-x-0"
         />
       </div>
       {/* <Hero /> */}

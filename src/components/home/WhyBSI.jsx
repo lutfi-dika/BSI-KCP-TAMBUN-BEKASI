@@ -41,7 +41,7 @@ export default function WhyBSI() {
 
   return (
     <section className="bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <SectionTitle
           kicker={t("why.kicker")}
           title={t("why.title")}
@@ -53,7 +53,7 @@ export default function WhyBSI() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mx-auto mt-14 max-w-4xl"
+          className="mx-auto mt-14 max-w-5xl"
         >
           {FEATURES.map(({ number, Icon, titleKey, textKey }, index) => (
             <motion.li

@@ -21,6 +21,11 @@ export async function apiRequest(endpoint, options = {}) {
     headers.Authorization = `Bearer ${accessToken}`;
   }
 
+  // For FormData requests, don't set Content-Type (browser will set boundary)
+  if (options.body instanceof FormData) {
+    delete headers["Content-Type"];
+  }
+
   const res = await fetch(url, {
     ...options,
     headers,
@@ -55,12 +60,27 @@ export async function apiRequest(endpoint, options = {}) {
     localStorage.removeItem("bsi_access_token");
     localStorage.removeItem("bsi_refresh_token");
     localStorage.removeItem("bsi_user");
+    localStorage.removeItem("bsi_needs_secret_key");
+    localStorage.removeItem("bsi_secret_key_verified");
     throw new Error("Session expired. Please login again.");
   }
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: "Request failed" }));
-    throw new Error(err.error || `HTTP ${res.status}`);
+    const error = new Error(err.error || `HTTP ${res.status}`);
+    error.code = err.code;
+    error.lockout = err.lockout;
+    error.remainingAttempts = err.remainingAttempts;
+    // Special handling for session binding failure — force logout
+    if (err.code === "SESSION_BINDING_FAILED") {
+      accessToken = null;
+      localStorage.removeItem("bsi_access_token");
+      localStorage.removeItem("bsi_refresh_token");
+      localStorage.removeItem("bsi_user");
+      localStorage.removeItem("bsi_needs_secret_key");
+      localStorage.removeItem("bsi_secret_key_verified");
+    }
+    throw error;
   }
 
   return res.json();

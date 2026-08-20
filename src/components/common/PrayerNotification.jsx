@@ -139,7 +139,9 @@ export default function PrayerNotification({
       if (pct < 1) rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
-    const timer = setTimeout(onDismiss, DISMISS_MS);
+    const timer = setTimeout(() => {
+      onDismiss();
+    }, DISMISS_MS);
     return () => {
       clearTimeout(timer);
       cancelAnimationFrame(rafRef.current);

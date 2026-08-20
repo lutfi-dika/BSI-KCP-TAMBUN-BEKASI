@@ -96,8 +96,8 @@ export default function ProductRecommendation() {
 
   return (
     <section className="bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} className="mx-auto max-w-2xl text-center">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }}           className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center rounded-full border border-emerald-500/15 bg-emerald-500/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-emerald-500">
             {lang === "en" ? "AI Recommendation" : "Rekomendasi AI"}
           </span>
@@ -111,7 +111,7 @@ export default function ProductRecommendation() {
           </p>
         </motion.div>
 
-        <div className="mx-auto mt-10 max-w-3xl">
+        <div className="mx-auto mt-10 max-w-4xl">
           <AnimatePresence mode="wait">
             {step === 0 ? (
               <motion.div

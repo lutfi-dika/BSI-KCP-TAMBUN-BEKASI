@@ -8,12 +8,65 @@ const router = Router();
 router.use(authenticate, requireAdmin);
 
 // ---------------------------------------------------------------------------
+// Input sanitization helpers
+// ---------------------------------------------------------------------------
+const TAG_RE = /<[^>]*>/g;
+const SCRIPT_RE = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+const EVENT_RE = /\bon\w+\s*=/gi;
+const JS_URL_RE = /javascript\s*:/gi;
+
+/**
+ * Strip potentially dangerous HTML from a string value.
+ * Preserves plain text; only removes tags + event handlers + JS URIs.
+ */
+function sanitize(value) {
+  if (typeof value !== "string") return value;
+  return value
+    .replace(SCRIPT_RE, "")
+    .replace(EVENT_RE, "")
+    .replace(JS_URL_RE, "")
+    .replace(TAG_RE, "");
+}
+
+/**
+ * Deep-sanitize an object's string fields (recursively for JSON columns).
+ */
+function sanitizeFields(obj) {
+  if (!obj || typeof obj !== "object") return obj;
+  const result = {};
+  for (const [key, val] of Object.entries(obj)) {
+    if (typeof val === "string") {
+      result[key] = sanitize(val);
+    } else if (Array.isArray(val)) {
+      result[key] = val.map((v) => (typeof v === "string" ? sanitize(v) : v));
+    } else {
+      result[key] = val;
+    }
+  }
+  return result;
+}
+
+/**
+ * Validate that required string fields are not empty after trimming.
+ */
+function validateRequired(body, requiredFields) {
+  for (const field of requiredFields) {
+    const val = body[field];
+    if (val !== undefined && (typeof val !== "string" || val.trim() === "")) {
+      return `${field} cannot be empty`;
+    }
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // Helper: generic CRUD factory
 // ---------------------------------------------------------------------------
 function createCrudRoutes(tableName, {
   idColumn = "id",
   jsonColumns = [],
   allowedFields = [],
+  requiredFields = [],
 } = {}) {
   const routes = Router();
 
@@ -32,7 +85,14 @@ function createCrudRoutes(tableName, {
 
   // POST create
   routes.post("/", (req, res) => {
-    const body = req.body || {};
+    const body = sanitizeFields(req.body || {});
+
+    // Validate required fields
+    const validationError = validateRequired(body, requiredFields);
+    if (validationError) {
+      return res.status(400).json({ error: validationError });
+    }
+
     const fields = allowedFields.length > 0 ? allowedFields : Object.keys(body);
     const cols = [];
     const vals = [];
@@ -64,7 +124,14 @@ function createCrudRoutes(tableName, {
 
   // PUT update
   routes.put(`/:id`, (req, res) => {
-    const body = req.body || {};
+    const body = sanitizeFields(req.body || {});
+
+    // Validate required fields
+    const validationError = validateRequired(body, requiredFields);
+    if (validationError) {
+      return res.status(400).json({ error: validationError });
+    }
+
     const fields = allowedFields.length > 0 ? allowedFields : Object.keys(body);
     const sets = [];
     const vals = [];
@@ -117,6 +184,7 @@ router.use("/services", createCrudRoutes("services", {
     "item_overview", "item_benefits", "item_requirements", "item_process",
     "item_features", "item_link", "sort_order",
   ],
+  requiredFields: ["category_id", "category_title_id", "category_title_en", "category_slug", "item_name"],
 }));
 
 // ---------------------------------------------------------------------------
@@ -124,6 +192,7 @@ router.use("/services", createCrudRoutes("services", {
 // ---------------------------------------------------------------------------
 router.use("/faqs", createCrudRoutes("faqs", {
   allowedFields: ["question_id", "question_en", "answer_id", "answer_en", "sort_order"],
+  requiredFields: ["question_id", "question_en", "answer_id", "answer_en"],
 }));
 
 // ---------------------------------------------------------------------------
@@ -135,6 +204,7 @@ router.use("/news", createCrudRoutes("news", {
     "excerpt_id", "excerpt_en", "image_label_id", "image_label_en",
     "image_url", "sort_order",
   ],
+  requiredFields: ["title_id", "title_en", "date"],
 }));
 
 // ---------------------------------------------------------------------------
@@ -145,6 +215,7 @@ router.use("/gallery", createCrudRoutes("gallery", {
     "title_id", "title_en", "caption_id", "caption_en",
     "category_id", "category_en", "accent", "image", "icon", "sort_order",
   ],
+  requiredFields: ["title_id", "title_en"],
 }));
 
 // ---------------------------------------------------------------------------
@@ -187,7 +258,7 @@ router.get("/contact", (req, res) => {
 });
 
 router.put("/contact", (req, res) => {
-  const body = req.body || {};
+  const body = sanitizeFields(req.body || {});
   const allowed = [
     "branch_name", "branch_full_id", "branch_full_en", "address", "phone",
     "bsi_call", "whatsapp", "email", "operational_hours_id", "operational_hours_en",

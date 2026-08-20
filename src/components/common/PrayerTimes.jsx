@@ -99,31 +99,52 @@ function parseResponse(json) {
 }
 
 function showBrowserNotification(title, body, tag = "prayer-time") {
+  if (!("Notification" in window)) return;
   if (Notification.permission === "granted") {
     try {
-      new Notification(title, {
+      const n = new Notification(title, {
         body,
         icon: "/favicon.png",
         tag,
         vibrate: [200, 100, 200],
         requireInteraction: tag === "prayer-adzan",
       });
+      // Auto-close after 10 seconds for reminder, stay for adzan
+      if (tag !== "prayer-adzan") {
+        setTimeout(() => n.close(), 10000);
+      }
     } catch { /* noop */ }
   }
 }
 
 function requestNotificationPermission(onResult) {
-  if (!("Notification" in window)) return;
-  if (Notification.permission === "default") {
-    Notification.requestPermission().then((p) => onResult(p));
-  } else {
+  if (!("Notification" in window)) {
+    onResult("unsupported");
+    return;
+  }
+  // Already decided
+  if (Notification.permission !== "default") {
     onResult(Notification.permission);
+    return;
+  }
+  // Request with user gesture fallback
+  try {
+    Notification.requestPermission().then((p) => onResult(p)).catch(() => {
+      // If promise API fails, try callback API
+      try {
+        Notification.requestPermission((p) => onResult(p));
+      } catch {
+        onResult("denied");
+      }
+    });
+  } catch {
+    onResult("denied");
   }
 }
 
 export default function PrayerTimes() {
   const { lang, t } = useLanguage();
-  const { soundEnabled, toggleSound, playAdzan, playReminder } =
+  const { soundEnabled, toggleSound, playAdzan, playReminder, stopAdzan } =
     useNotificationSound();
   const [status, setStatus] = useState("idle");
   const [prayers, setPrayers] = useState(null);
@@ -135,9 +156,23 @@ export default function PrayerTimes() {
     return Notification.permission;
   });
   const [notifyPrayer, setNotifyPrayer] = useState(null);
+  const [userInteracted, setUserInteracted] = useState(false);
   const mountedRef = useRef(true);
   const notifiedRef = useRef(new Set());
   const notifyTimerRef = useRef(null);
+
+  // Track user interaction for autoplay policy
+  useEffect(() => {
+    const handler = () => setUserInteracted(true);
+    window.addEventListener("click", handler, { once: true });
+    window.addEventListener("keydown", handler, { once: true });
+    window.addEventListener("touchstart", handler, { once: true });
+    return () => {
+      window.removeEventListener("click", handler);
+      window.removeEventListener("keydown", handler);
+      window.removeEventListener("touchstart", handler);
+    };
+  }, []);
 
   const load = useCallback(async () => {
     setStatus("loading");
@@ -199,7 +234,7 @@ export default function PrayerTimes() {
         const prayerMin = h * 60 + m;
         const label = getPrayerName(name, lang);
 
-        // Adzan notification (prayer time entered)
+        // Adzan notification (prayer time entered — check within 60s window)
         if (
           prayerMin === nowMin &&
           nowSec < 60 &&
@@ -210,12 +245,16 @@ export default function PrayerTimes() {
           const body = t("prayer.notifyBody").replace("{prayer}", label);
 
           showBrowserNotification(title, body, "prayer-adzan");
-          playAdzan();
+          // Only play sound if user has interacted (autoplay policy)
+          if (userInteracted) playAdzan();
 
           setNotifyPrayer({ name, time: prayers[name], variant: "adzan" });
           clearTimeout(notifyTimerRef.current);
           notifyTimerRef.current = setTimeout(() => {
-            if (mountedRef.current) setNotifyPrayer(null);
+            if (mountedRef.current) {
+              setNotifyPrayer(null);
+              stopAdzan();
+            }
           }, 18000);
           break;
         }
@@ -233,7 +272,7 @@ export default function PrayerTimes() {
             .replace("{minutes}", String(PRE_REMIND_MIN));
 
           showBrowserNotification(title, body, "prayer-reminder");
-          playReminder();
+          if (userInteracted) playReminder();
 
           setNotifyPrayer({
             name,
@@ -250,9 +289,9 @@ export default function PrayerTimes() {
     };
 
     check();
-    const id = setInterval(check, 5000);
+    const id = setInterval(check, 3000); // Check every 3 seconds for reliability
     return () => clearInterval(id);
-  }, [prayers, lang, t, playAdzan, playReminder]);
+  }, [prayers, lang, t, playAdzan, playReminder, userInteracted, stopAdzan]);
 
   useEffect(() => () => clearTimeout(notifyTimerRef.current), []);
 
@@ -265,6 +304,7 @@ export default function PrayerTimes() {
   const dismissNotification = () => {
     setNotifyPrayer(null);
     clearTimeout(notifyTimerRef.current);
+    stopAdzan();
   };
 
   const prayerList = prayers
@@ -280,13 +320,13 @@ export default function PrayerTimes() {
 
   return (
     <section className="border-t border-line bg-surface py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mx-auto max-w-2xl text-center"
+          className="mx-auto max-w-3xl text-center"
         >
           <SectionTitle
             kicker={t("prayer.kicker")}
@@ -300,11 +340,12 @@ export default function PrayerTimes() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mx-auto mt-10 max-w-4xl"
+          className="mx-auto mt-10 max-w-5xl"
         >
           {/* Floating prayer notification */}
           {notifyPrayer && (
             <PrayerNotification
+              key={`${notifyPrayer.name}-${notifyPrayer.time}-${notifyPrayer.variant}`}
               prayer={notifyPrayer.name}
               time={notifyPrayer.time}
               variant={notifyPrayer.variant}

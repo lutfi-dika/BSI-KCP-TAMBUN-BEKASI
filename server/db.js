@@ -195,6 +195,58 @@ db.exec(`
     value_en TEXT DEFAULT '',
     updated_at TEXT DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS login_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    ip TEXT DEFAULT '',
+    user_agent TEXT DEFAULT '',
+    status TEXT NOT NULL DEFAULT 'failed',
+    reason TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS login_attempts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    ip TEXT DEFAULT '',
+    success INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS admin_ip_whitelist (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ip TEXT UNIQUE NOT NULL,
+    label TEXT DEFAULT '',
+    enabled INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS admin_settings (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    secret_key_hash TEXT DEFAULT '',
+    secret_key_hint TEXT DEFAULT '',
+    session_binding INTEGER DEFAULT 1,
+    ip_whitelist_enabled INTEGER DEFAULT 0,
+    updated_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS admin_sessions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    token_fingerprint TEXT NOT NULL,
+    ip TEXT DEFAULT '',
+    user_agent TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now')),
+    expires_at TEXT NOT NULL
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_login_logs_email ON login_logs(email);
+  CREATE INDEX IF NOT EXISTS idx_login_logs_created ON login_logs(created_at);
+  CREATE INDEX IF NOT EXISTS idx_login_attempts_email ON login_attempts(email);
+  CREATE INDEX IF NOT EXISTS idx_login_attempts_created ON login_attempts(created_at);
+  CREATE INDEX IF NOT EXISTS idx_admin_ip_whitelist_ip ON admin_ip_whitelist(ip);
+  CREATE INDEX IF NOT EXISTS idx_admin_sessions_user ON admin_sessions(user_id);
 `);
 
 // ---------------------------------------------------------------------------
@@ -738,6 +790,15 @@ function seedIfEmpty() {
     for (const row of catData) insert.run(...row);
     console.log("[db] Seeded 3 brochure categories");
   }
+}
+
+// ---------------------------------------------------------------------------
+// Admin security settings — ensure row exists
+// ---------------------------------------------------------------------------
+const settingsRow = db.prepare("SELECT COUNT(*) as c FROM admin_settings").get().c;
+if (settingsRow === 0) {
+  db.prepare("INSERT INTO admin_settings (id) VALUES (1)").run();
+  console.log("[db] Initialized admin security settings");
 }
 
 seedIfEmpty();

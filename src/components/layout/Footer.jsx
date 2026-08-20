@@ -37,49 +37,52 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative isolate overflow-hidden border-t border-white/10 bg-emerald-900 text-gray-200 dark:border-line dark:bg-[#0a0e13]">
+    <footer className="relative isolate overflow-hidden bg-[#24A29F] text-white dark:bg-[#0a0e13]">
+      {/* Thick gold/orange border top — BSI signature */}
+      <div className="h-[34px] w-full bg-[#F6AD3C]" />
+
+      {/* Background image overlay */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center opacity-60"
+        className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center opacity-30"
         style={{ backgroundImage: `url(${footerBg})` }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-emerald-900/80 via-emerald-900/90 to-emerald-950/95 dark:from-[#0a0e13]/80 dark:via-[#0a0e13]/90 dark:to-[#0a0e13]/95"
-      />
-      <div className="pointer-events-none absolute -top-40 right-[-5%] -z-10 h-[300px] w-[300px] rounded-full bg-emerald-400/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-6 pt-20 pb-10">
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-[1.4fr_1fr_1fr_1.2fr_1fr]">
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                <img src={bsiLogo} alt="BSI Logo" className="h-8 w-8 rounded-lg" />
-              </div>
-              <span className="text-sm font-bold tracking-wide text-white">
-                BSI KCP TAMBUN
-              </span>
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10 pt-10 pb-10">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Brand + Address */}
+          <div className="lg:col-span-1">
+            <img src={bsiLogo} alt="BSI Logo" className="mb-4 h-10 w-auto" />
+            <p className="mt-2 max-w-[250px] text-sm leading-relaxed text-white/90">
+              {CONTACT_INFO.address}
+            </p>
+            <div className="mt-5 flex items-center gap-3">
+              {socials.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white transition-all duration-300 hover:bg-[#F6AD3C] hover:scale-110"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
-            <p className="mt-5 max-w-xs text-[13px] leading-relaxed text-gray-400">
-              {t("footer.tagline")}
-            </p>
-            <p className="mt-4 max-w-xs text-xs leading-relaxed text-gray-500">
-              {t("footer.regulatory")}
-            </p>
           </div>
 
           {/* Navigasi */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.navTitle")}</h3>
-            <ul className="mt-5 flex flex-col gap-2">
+            <h3 className="mb-4 text-lg font-bold text-white">{t("footer.navTitle")}</h3>
+            <div className="mb-4 h-[3px] w-12 bg-[#F6AD3C]" />
+            <ul className="flex flex-col gap-2.5">
               {navLinks.map((link) => (
                 <li key={link.to}>
                   <NavLink
                     to={link.to}
-                    className="text-[13px] text-gray-400 transition-all duration-300 hover:pl-1.5 hover:text-white inline-flex items-center gap-1.5"
+                    className="text-sm text-white/80 transition-colors duration-200 hover:text-[#F6AD3C] hover:pl-1"
                   >
-                    <span className="h-1 w-1 rounded-full bg-emerald-500/0 transition-all duration-300 group-hover:bg-emerald-400" />
                     {link.label}
                   </NavLink>
                 </li>
@@ -89,13 +92,14 @@ export default function Footer() {
 
           {/* Layanan */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.servicesTitle")}</h3>
-            <ul className="mt-5 flex flex-col gap-2">
+            <h3 className="mb-4 text-lg font-bold text-white">{t("footer.servicesTitle")}</h3>
+            <div className="mb-4 h-[3px] w-12 bg-[#F6AD3C]" />
+            <ul className="flex flex-col gap-2.5">
               {serviceLinks.map((link) => (
                 <li key={link.to}>
                   <NavLink
                     to={link.to}
-                    className="text-[13px] text-gray-400 transition-all duration-300 hover:pl-1.5 hover:text-white"
+                    className="text-sm text-white/80 transition-colors duration-200 hover:text-[#F6AD3C] hover:pl-1"
                   >
                     {link.label}
                   </NavLink>
@@ -106,87 +110,53 @@ export default function Footer() {
 
           {/* Kontak */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.contactTitle")}</h3>
-            <ul className="mt-5 flex flex-col gap-3.5 text-[13px] text-gray-400">
+            <h3 className="mb-4 text-lg font-bold text-white">{t("footer.contactTitle")}</h3>
+            <div className="mb-4 h-[3px] w-12 bg-[#F6AD3C]" />
+            <ul className="flex flex-col gap-3.5 text-sm text-white/80">
               <li className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
-                  <FiMapPin size={14} />
-                </span>
+                <FiMapPin size={16} className="mt-0.5 shrink-0 text-[#F6AD3C]" />
                 <span className="leading-relaxed">{CONTACT_INFO.address}</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
-                  <FiPhone size={14} />
-                </span>
+                <FiPhone size={16} className="shrink-0 text-[#F6AD3C]" />
                 <span>{CONTACT_INFO.phone}</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
-                  <FiMail size={14} />
-                </span>
+                <FiMail size={16} className="shrink-0 text-[#F6AD3C]" />
                 <span>{CONTACT_INFO.email}</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
-                  <FiClock size={14} />
-                </span>
+                <FiClock size={16} className="shrink-0 text-[#F6AD3C]" />
                 <span>{tr(CONTACT_INFO.operationalHours)}</span>
               </li>
             </ul>
           </div>
+        </div>
 
-          {/* Sosial Media */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300">{t("footer.socialTitle")}</h3>
-            <p className="mt-5 max-w-xs text-[13px] leading-relaxed text-gray-400">
-              {t("footer.socialDesc")}
-            </p>
-            <div className="mt-5 flex items-center gap-3">
-              {socials.map(({ label, href, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400/50 hover:bg-emerald-500/10 hover:text-emerald-300 hover:shadow-glow"
-                >
-                  <Icon size={15} />
-                </a>
-              ))}
+        {/* Copyright + Regulatory */}
+        <div className="mt-10 border-t border-white/20 pt-6">
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+            <div className="flex flex-wrap items-center justify-center gap-2.5">
+              {[t("footer.regOjk"), t("footer.regBi"), t("footer.regLps")].map(
+                (badge) => (
+                  <span
+                    key={badge}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/80"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#F6AD3C]" />
+                    {badge}
+                  </span>
+                ),
+              )}
             </div>
+            <p className="text-xs text-white/60">
+              {t("footer.copyright").replace("{year}", String(year))}
+              <span className="mx-2 opacity-40" aria-hidden="true">·</span>
+              <NavLink to="/admin" className="hover:text-[#F6AD3C] transition-colors">
+                {t("admin.kicker")}
+              </NavLink>
+            </p>
           </div>
-        </div>
-
-        {/* Regulatory badges */}
-        <div className="mt-16 flex flex-col items-center gap-4 border-t border-white/10 pt-8 text-center sm:flex-row sm:justify-between sm:text-left">
-          <div className="flex flex-wrap items-center justify-center gap-2.5">
-            {[t("footer.regOjk"), t("footer.regBi"), t("footer.regLps")].map(
-              (badge) => (
-                <span
-                  key={badge}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 text-[11px] font-medium text-gray-400 backdrop-blur-sm"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse-dot" />
-                  {badge}
-                </span>
-              ),
-            )}
-          </div>
-          <p className="max-w-sm text-[11px] leading-relaxed text-gray-500">
-            {t("footer.noteLps")}
-          </p>
-        </div>
-
-        {/* Copyright */}
-        <div className="mt-6 border-t border-white/10 pt-6 text-center">
-          <p className="text-xs text-gray-500">
-            {t("footer.copyright").replace("{year}", String(year))}
-            <span className="mx-2 opacity-40" aria-hidden="true">·</span>
-            <NavLink to="/admin" className="link-underline transition-colors hover:text-emerald-400">
-              {t("admin.kicker")}
-            </NavLink>
-          </p>
         </div>
       </div>
     </footer>

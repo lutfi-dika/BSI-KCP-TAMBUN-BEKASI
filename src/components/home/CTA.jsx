@@ -11,7 +11,7 @@ export default function CTA() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative isolate overflow-hidden bg-emerald-50 py-20 lg:py-24 dark:bg-surface-muted">
+    <section className="relative isolate overflow-hidden bg-emerald-50 py-24 lg:py-32 dark:bg-surface-muted">
       <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-emerald-400/15 blur-[90px]" />
       <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-gold-500/[0.1] blur-[90px]" />
       <div
@@ -29,7 +29,7 @@ export default function CTA() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-60px" }}
-        className="relative mx-auto max-w-4xl px-6 text-center"
+        className="relative mx-auto max-w-[900px] px-6 sm:px-10 lg:px-10 text-center"
       >
         <motion.span
           variants={fadeUp}

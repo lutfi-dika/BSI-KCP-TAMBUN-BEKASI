@@ -53,7 +53,7 @@ export default function PromoBanner() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <div className="relative overflow-hidden rounded-[1.75rem] border border-line/80 bg-surface-card/90 backdrop-blur-sm shadow-[0_30px_80px_-30px_rgba(0,132,125,0.15)]">
           <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-emerald-50 via-surface-card to-surface-card dark:from-surface-muted dark:via-surface-card dark:to-elevated" />
           <div

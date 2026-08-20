@@ -12,8 +12,9 @@ import {
   FiClipboard,
   FiList,
   FiCheckCircle,
+  FiLoader,
 } from "react-icons/fi";
-import { SERVICE_CATEGORIES } from "../data/services";
+import { usePublicData } from "../hooks/usePublicData";
 import PageHeader from "../components/ui/PageHeader";
 import SectionTitle from "../components/common/SectionTitle";
 import Seo, { breadcrumb } from "../components/common/Seo";
@@ -406,6 +407,7 @@ function ServiceCard({ item, categoryLabel, onOpen, t, tr }) {
 export default function Services() {
   const { t, tr } = useLanguage();
   const [activeItem, setActiveItem] = useState(null);
+  const { data: SERVICE_CATEGORIES, loading, error } = usePublicData("/services", []);
 
   return (
     <>
@@ -424,90 +426,104 @@ export default function Services() {
         description={t("services.desc")}
       />
 
-      {/* Quick anchor nav */}
-      <div className="border-b border-line bg-surface">
-        <nav
-          aria-label={t("services.navLabel")}
-          className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-6 py-4"
-        >
-          {SERVICE_CATEGORIES.map((cat) => (
-            <a
-              key={cat.id}
-              href={`#${cat.slug}`}
-              className="shrink-0 rounded-full border border-line-strong px-4 py-1.5 text-xs font-medium text-ink-mid transition-colors hover:border-emerald-500 hover:text-emerald-500"
+      {loading ? (
+        <section className="bg-surface py-32">
+          <div className="flex h-40 items-center justify-center">
+            <FiLoader className="animate-spin text-emerald-500" size={32} />
+          </div>
+        </section>
+      ) : error ? (
+        <section className="bg-surface py-32">
+          <div className="text-center text-red-500">{error}</div>
+        </section>
+      ) : (
+        <>
+          {/* Quick anchor nav */}
+          <div className="border-b border-line bg-surface">
+            <nav
+              aria-label={t("services.navLabel")}
+              className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-6 py-4"
             >
-              {tr(cat.title)}
-            </a>
-          ))}
-        </nav>
-      </div>
-
-      {/* Category sections */}
-      <div className="bg-surface">
-        {SERVICE_CATEGORIES.map((cat, index) => {
-          const charts = getCategoryCharts(cat.id, t, tr);
-
-          return (
-            <section
-              key={cat.id}
-              id={cat.slug}
-              className={`scroll-mt-24 py-20 ${
-                index % 2 === 1 ? "bg-surface-muted" : "bg-surface"
-              }`}
-            >
-              <div className="mx-auto max-w-7xl px-6">
-                <SectionTitle
-                  align="left"
-                  kicker={t(CATEGORY_KEYS[cat.id] ?? "services.catDefault")}
-                  title={tr(cat.title)}
-                  description={tr(cat.description)}
-                />
-
-                <motion.div
-                  variants={staggerContainer(0.12, 0.1)}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: "-60px" }}
-                  className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-2"
+              {SERVICE_CATEGORIES.map((cat) => (
+                <a
+                  key={cat.id}
+                  href={`#${cat.slug}`}
+                  className="shrink-0 rounded-full border border-line-strong px-4 py-1.5 text-xs font-medium text-ink-mid transition-colors hover:border-emerald-500 hover:text-emerald-500"
                 >
-                  {charts ? (
-                    charts.map((c) => <div key={c.key}>{c.el}</div>)
-                  ) : (
-                    <DataUnavailableCard
-                      className="lg:col-span-2"
-                      title={t("charts.unavailableTitle")}
-                      description={t(`charts.unavailableBody.${cat.id}`)}
-                    />
-                  )}
-                </motion.div>
+                  {tr(cat.title)}
+                </a>
+              ))}
+            </nav>
+          </div>
 
-                <motion.div
-                  variants={staggerContainer(0.08, 0.1)}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: "-60px" }}
-                  className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+          {/* Category sections */}
+          <div className="bg-surface">
+            {SERVICE_CATEGORIES.map((cat, index) => {
+              const charts = getCategoryCharts(cat.id, t, tr);
+
+              return (
+                <section
+                  key={cat.id}
+                  id={cat.slug}
+                  className={`scroll-mt-24 py-20 ${
+                    index % 2 === 1 ? "bg-surface-muted" : "bg-surface"
+                  }`}
                 >
-                  {cat.items.map((item) => (
-                    <ServiceCard
-                      key={item.name}
-                      item={item}
-                      categoryLabel={tr(cat.title)}
-                      onOpen={() => setActiveItem({ item, categoryLabel: tr(cat.title) })}
-                      t={t}
-                      tr={tr}
+                  <div className="mx-auto max-w-7xl px-6">
+                    <SectionTitle
+                      align="left"
+                      kicker={t(CATEGORY_KEYS[cat.id] ?? "services.catDefault")}
+                      title={tr(cat.title)}
+                      description={tr(cat.description)}
                     />
-                  ))}
-                </motion.div>
 
-                <p className="mt-8 text-xs text-ink-faint">
-                  {t("services.footnote")}
-                </p>
-              </div>
-            </section>
-          );
-        })}
-      </div>
+                    <motion.div
+                      variants={staggerContainer(0.12, 0.1)}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, margin: "-60px" }}
+                      className="mt-10 grid grid-cols-1 gap-5 lg:grid-cols-2"
+                    >
+                      {charts ? (
+                        charts.map((c) => <div key={c.key}>{c.el}</div>)
+                      ) : (
+                        <DataUnavailableCard
+                          className="lg:col-span-2"
+                          title={t("charts.unavailableTitle")}
+                          description={t(`charts.unavailableBody.${cat.id}`)}
+                        />
+                      )}
+                    </motion.div>
+
+                    <motion.div
+                      variants={staggerContainer(0.08, 0.1)}
+                      initial="hidden"
+                      whileInView="show"
+                      viewport={{ once: true, margin: "-60px" }}
+                      className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+                    >
+                      {cat.items.map((item) => (
+                        <ServiceCard
+                          key={item.name}
+                          item={item}
+                          categoryLabel={tr(cat.title)}
+                          onOpen={() => setActiveItem({ item, categoryLabel: tr(cat.title) })}
+                          t={t}
+                          tr={tr}
+                        />
+                      ))}
+                    </motion.div>
+
+                    <p className="mt-8 text-xs text-ink-faint">
+                      {t("services.footnote")}
+                    </p>
+                  </div>
+                </section>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       <div className="flex justify-center bg-surface pb-20">
         <Link

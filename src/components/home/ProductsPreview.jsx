@@ -48,7 +48,7 @@ export default function ProductsPreview() {
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <SectionTitle
           kicker={t("products.kicker")}
           title={t("products.title")}

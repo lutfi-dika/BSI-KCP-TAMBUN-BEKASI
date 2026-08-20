@@ -55,10 +55,7 @@ export default function ImageSlider({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
-            {/* Tidak ada rasio/tinggi tetap — tinggi mengikuti gambar aslinya,
-                lebar selalu penuh (edge-to-edge), gambar tidak pernah kepotong. */}
             <div className="relative w-full">
-                {/* Placeholder tak terlihat untuk menjaga tinggi kontainer mengikuti gambar aktif */}
                 <img
                     src={images[index]}
                     alt=""

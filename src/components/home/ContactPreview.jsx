@@ -34,7 +34,7 @@ export default function ContactPreview() {
 
   return (
     <section id="kontak" className="scroll-mt-24 bg-surface-muted py-16 lg:py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-[1360px] px-6 sm:px-10 lg:px-10">
         <SectionTitle
           kicker={t("contactPreview.kicker")}
           title={t("contactPreview.title")}
@@ -46,7 +46,7 @@ export default function ContactPreview() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
-          className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5"
         >
           {CARDS.map(({ Icon, title, value }) => (
             <motion.div
