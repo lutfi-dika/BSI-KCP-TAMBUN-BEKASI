@@ -7,8 +7,7 @@ import { fadeUp, staggerContainer } from "../../utils/animation";
 function NodeCard({ title, subTitle, tone = "division" }) {
   const styles = {
     root: "bg-gradient-to-br from-emerald-500 to-emerald-900 border-transparent text-white shadow-lg",
-    division:
-      "bg-surface-card border-line text-ink shadow-sm",
+    division: "bg-surface-card border-line text-ink shadow-sm",
     child: "bg-surface-muted border-line text-ink",
   };
 
@@ -42,7 +41,11 @@ function Connector() {
 
 export default function OrganizationChart() {
   const { t, tr } = useLanguage();
-  const { data: BRANCH_STRUCTURE, loading, error } = usePublicData("/organization", null);
+  const {
+    data: BRANCH_STRUCTURE,
+    loading,
+    error,
+  } = usePublicData("/organization", null);
 
   if (loading) {
     return (
@@ -54,9 +57,14 @@ export default function OrganizationChart() {
 
   if (error || !BRANCH_STRUCTURE) {
     return (
-      <div className="text-center text-red-500">{error || "Data not available"}</div>
+      <div className="text-center text-red-500">
+        {error || "Data not available"}
+      </div>
     );
   }
+
+  // Ambil array children utama dengan fallback array kosong
+  const divisions = BRANCH_STRUCTURE?.children || [];
 
   return (
     <motion.div
@@ -82,23 +90,34 @@ export default function OrganizationChart() {
 
       {/* Divisions */}
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-        {BRANCH_STRUCTURE.children.map((division) => (
-          <motion.div key={division.role.id} variants={fadeUp}>
-            <Connector />
-            <NodeCard title={tr(division.role)} tone="division" />
+        {divisions.map((division, divIndex) => {
+          // Ambil ID unik string/number, atau fallback ke index jika id tidak ada
+          const divKey = division._id || division.id || divIndex;
+          const childList = division?.children || [];
 
-            {division.children.length > 0 && (
-              <div className="mt-6 space-y-3">
-                {division.children.map((child) => (
-                  <div key={child.role.id}>
-                    <div className="mx-auto mb-3 h-3 w-px bg-emerald-500/25" />
-                    <NodeCard title={tr(child.role)} tone="child" />
-                  </div>
-                ))}
-              </div>
-            )}
-          </motion.div>
-        ))}
+          return (
+            <motion.div key={divKey} variants={fadeUp}>
+              <Connector />
+              <NodeCard title={tr(division.role)} tone="division" />
+
+              {childList.length > 0 && (
+                <div className="mt-6 space-y-3">
+                  {childList.map((child, childIndex) => {
+                    const childKey =
+                      child._id || child.id || `${divKey}-${childIndex}`;
+
+                    return (
+                      <div key={childKey}>
+                        <div className="mx-auto mb-3 h-3 w-px bg-emerald-500/25" />
+                        <NodeCard title={tr(child.role)} tone="child" />
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </motion.div>
+          );
+        })}
       </div>
 
       <motion.p
