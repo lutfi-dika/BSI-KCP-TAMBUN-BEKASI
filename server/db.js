@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
+import { SERVICE_CATEGORIES } from "../src/data/services.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DB_PATH = path.join(__dirname, "bsi-admin.db");
@@ -277,6 +278,38 @@ function seedIfEmpty() {
         "[db] ⚠️  This password is shown ONLY this once. Log in and change it immediately, or set ADMIN_PASSWORD in .env before first run.",
       );
     }
+  }
+
+  const serviceCount = db.prepare("SELECT COUNT(*) as c FROM services").get().c;
+  if (serviceCount === 0) {
+    const insert = db.prepare(
+      `INSERT INTO services (category_id, category_title_id, category_title_en, category_slug, category_description_id, category_description_en, category_icon, item_name, item_description_id, item_description_en, item_overview, item_benefits, item_requirements, item_process, item_features, item_link, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    );
+    let order = 0;
+    for (const cat of SERVICE_CATEGORIES) {
+      for (const item of cat.items) {
+        insert.run(
+          cat.id,
+          cat.title.id,
+          cat.title.en,
+          cat.slug,
+          cat.description?.id ?? "",
+          cat.description?.en ?? "",
+          cat.icon ?? "",
+          item.name,
+          item.description?.id ?? "",
+          item.description?.en ?? "",
+          JSON.stringify(item.overview ?? []),
+          JSON.stringify(item.benefits ?? []),
+          JSON.stringify(item.requirements ?? []),
+          JSON.stringify(item.process ?? []),
+          JSON.stringify(item.features ?? []),
+          item.link ?? "",
+          ++order,
+        );
+      }
+    }
+    console.log("[db] Seeded services catalog");
   }
 
   const newsCount = db.prepare("SELECT COUNT(*) as c FROM news").get().c;
