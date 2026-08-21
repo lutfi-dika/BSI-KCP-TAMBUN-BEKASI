@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiX, FiSend, FiHeadphones, FiUser, FiMoreVertical } from "react-icons/fi";
-import { FaWhatsapp } from "react-icons/fa";
+import {
+  FiX,
+  FiSend,
+  FiHeadphones,
+  FiUser,
+  FiMoreVertical,
+} from "react-icons/fi";
 import { useLanguage } from "../../context/languageContext";
 import { KEYWORD_MAP, searchFAQ, searchProducts } from "../../data/aiKnowledge";
-import { CONTACT_INFO } from "../../data/contact";
 
 function getResponse(input, lang) {
   const q = input.toLowerCase().trim();
@@ -25,7 +29,9 @@ function getResponse(input, lang) {
     const list = products
       .map((p) => `${p.name}: ${p.description[lang] || p.description.id}`)
       .join("\n\n");
-    return lang === "en" ? `I found the following products:\n\n${list}` : `Saya menemukan produk berikut:\n\n${list}`;
+    return lang === "en"
+      ? `I found the following products:\n\n${list}`
+      : `Saya menemukan produk berikut:\n\n${list}`;
   }
 
   return lang === "en"
@@ -65,9 +71,10 @@ export default function Chatbot() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState(() => {
-    const greeting = lang === "en"
-      ? "Hello! I'm BSI Virtual Assistant. How can I help you today?"
-      : "Halo! Saya Asisten Virtual BSI. Ada yang bisa saya bantu hari ini?";
+    const greeting =
+      lang === "en"
+        ? "Hello! I'm BSI Virtual Assistant. How can I help you today?"
+        : "Halo! Saya Asisten Virtual BSI. Ada yang bisa saya bantu hari ini?";
     return [{ role: "bot", text: greeting }];
   });
   const [input, setInput] = useState("");
@@ -76,30 +83,26 @@ export default function Chatbot() {
   const inputRef = useRef(null);
   const chatRef = useRef(null);
 
-  const waNumber = CONTACT_INFO.whatsapp.replace(/[^\d]/g, "");
-  const waHref = `https://wa.me/62${waNumber}?text=${encodeURIComponent(
-    t("whatsapp.defaultMessage"),
-  )}`;
-
-  const quickReplies = lang === "en"
-    ? [
-        { label: "Products", value: "What products are available?" },
-        { label: "Savings", value: "Tell me about savings" },
-        { label: "Financing", value: "Tell me about financing" },
-        { label: "Gold", value: "Gold services" },
-        { label: "Hours", value: "Operating hours?" },
-        { label: "Contact", value: "Contact info?" },
-        { label: "Calculator", value: "I want to calculate financing" },
-      ]
-    : [
-        { label: "Produk", value: "Apa saja produk BSI?" },
-        { label: "Tabungan", value: "Ceritakan tentang tabungan" },
-        { label: "Pembiayaan", value: "Ceritakan tentang pembiayaan" },
-        { label: "Emas", value: "Layanan emas" },
-        { label: "Jam Buka", value: "Jam berapa buka?" },
-        { label: "Kontak", value: "Info kontak?" },
-        { label: "Kalkulator", value: "Saya mau simulasi pembiayaan" },
-      ];
+  const quickReplies =
+    lang === "en"
+      ? [
+          { label: "Products", value: "What products are available?" },
+          { label: "Savings", value: "Tell me about savings" },
+          { label: "Financing", value: "Tell me about financing" },
+          { label: "Gold", value: "Gold services" },
+          { label: "Hours", value: "Operating hours?" },
+          { label: "Contact", value: "Contact info?" },
+          { label: "Calculator", value: "I want to calculate financing" },
+        ]
+      : [
+          { label: "Produk", value: "Apa saja produk BSI?" },
+          { label: "Tabungan", value: "Ceritakan tentang tabungan" },
+          { label: "Pembiayaan", value: "Ceritakan tentang pembiayaan" },
+          { label: "Emas", value: "Layanan emas" },
+          { label: "Jam Buka", value: "Jam berapa buka?" },
+          { label: "Kontak", value: "Info kontak?" },
+          { label: "Kalkulator", value: "Saya mau simulasi pembiayaan" },
+        ];
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -137,11 +140,14 @@ export default function Chatbot() {
       setInput("");
       setIsTyping(true);
 
-      setTimeout(() => {
-        const reply = getResponse(trimmed, lang);
-        setMessages((prev) => [...prev, { role: "bot", text: reply }]);
-        setIsTyping(false);
-      }, 600 + Math.random() * 800);
+      setTimeout(
+        () => {
+          const reply = getResponse(trimmed, lang);
+          setMessages((prev) => [...prev, { role: "bot", text: reply }]);
+          setIsTyping(false);
+        },
+        600 + Math.random() * 800,
+      );
     },
     [lang],
   );
@@ -156,7 +162,10 @@ export default function Chatbot() {
       {/* Tombol "..." utama */}
       <motion.button
         type="button"
-        onClick={() => { setMenuOpen((v) => !v); setChatOpen(false); }}
+        onClick={() => {
+          setMenuOpen((v) => !v);
+          setChatOpen(false);
+        }}
         aria-label="Menu"
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-glow-lg transition-all duration-300 hover:bg-emerald-600 hover:shadow-[0_12px_40px_-12px_rgba(0,132,125,0.6)] lg:bottom-8 lg:right-8"
         whileHover={{ scale: 1.05 }}
@@ -164,18 +173,28 @@ export default function Chatbot() {
       >
         <AnimatePresence mode="wait">
           {menuOpen || chatOpen ? (
-            <motion.span key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+            <motion.span
+              key="close"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+            >
               <FiX size={22} />
             </motion.span>
           ) : (
-            <motion.span key="dots" initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.5, opacity: 0 }}>
+            <motion.span
+              key="dots"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }}
+            >
               <FiMoreVertical size={22} />
             </motion.span>
           )}
         </AnimatePresence>
       </motion.button>
 
-      {/* Menu popup WA & AI */}
+      {/* Menu popup - hanya Asisten AI (WA sudah dihapus) */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -185,18 +204,6 @@ export default function Chatbot() {
             transition={{ duration: 0.2 }}
             className="fixed bottom-24 right-6 z-50 flex flex-col gap-2 lg:bottom-28 lg:right-8"
           >
-            {/* Tombol WhatsApp */}
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_-6px_rgba(37,211,102,0.4)] transition-all duration-300 hover:scale-105 hover:shadow-[0_12px_32px_-6px_rgba(37,211,102,0.5)]"
-            >
-              <FaWhatsapp size={18} />
-              WhatsApp
-            </a>
-
             {/* Tombol AI Chat */}
             <button
               type="button"
@@ -210,7 +217,7 @@ export default function Chatbot() {
         )}
       </AnimatePresence>
 
-      {/* Chat window */}
+      {/* Chat window (tidak berubah) */}
       <AnimatePresence>
         {chatOpen && (
           <motion.div
@@ -227,7 +234,9 @@ export default function Chatbot() {
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold">BSI Virtual Assistant</p>
                 <p className="text-[11px] opacity-80">
-                  {lang === "en" ? "Always ready to help" : "Selalu siap membantu"}
+                  {lang === "en"
+                    ? "Always ready to help"
+                    : "Selalu siap membantu"}
                 </p>
               </div>
             </div>
@@ -290,17 +299,27 @@ export default function Chatbot() {
 
             {messages.length > 1 && (
               <div className="border-t border-line px-3 pb-1 pt-1">
-                <QuickReply items={quickReplies.slice(0, 4)} onClick={sendMessage} />
+                <QuickReply
+                  items={quickReplies.slice(0, 4)}
+                  onClick={sendMessage}
+                />
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-line p-3">
+            <form
+              onSubmit={handleSubmit}
+              className="flex items-center gap-2 border-t border-line p-3"
+            >
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={lang === "en" ? "Type your question..." : "Ketik pertanyaan Anda..."}
+                placeholder={
+                  lang === "en"
+                    ? "Type your question..."
+                    : "Ketik pertanyaan Anda..."
+                }
                 className="flex-1 rounded-xl border border-line/60 bg-surface-muted/80 px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
               />
               <button
