@@ -2,6 +2,7 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Google Search Console Verification -->
     <meta
@@ -9,119 +10,65 @@
       content="AdwuPImXX_XOVYGTZ4xwU-Du83uMTsAe3KGTkmSl56A"
     />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <!-- Primary Meta Tags -->
     <title>BSI KCP Tambun Bekasi | Bank Syariah Indonesia</title>
-
-    <meta
-      name="title"
-      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
-    />
-
+    <meta name="title" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
     <meta
       name="description"
       content="Website informasi BSI KCP Tambun Bekasi yang menyediakan informasi profil, layanan, produk, lokasi, dan kontak Bank Syariah Indonesia."
     />
-
     <meta name="author" content="BSI KCP Tambun Bekasi" />
-
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-
     <meta name="theme-color" content="#00847D" />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://bsi-kcp-tambun-bekasi.vercel.app/" />
 
-    <!-- Favicons (Logo BSI) -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Favicon (logo utama untuk browser & Google Search) -->
+    <link rel="icon" type="image/png" href="/logo-bsi.png" />
+    <link rel="shortcut icon" href="/logo-bsi.png" />
+    <link rel="apple-touch-icon" href="/logo-bsi.png" />
+
+    <!-- Favicons tambahan (ukuran kecil untuk tab & perangkat) -->
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="/android-chrome-192x192.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="512x512"
-      href="/android-chrome-512x512.png"
-    />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
     <link rel="mask-icon" href="/favicon.svg" color="#00847D" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-
     <meta property="og:site_name" content="BSI KCP Tambun Bekasi" />
-
-    <meta
-      property="og:title"
-      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
-    />
-
+    <meta property="og:title" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
     <meta
       property="og:description"
       content="Website informasi BSI KCP Tambun Bekasi yang menyediakan informasi profil, layanan, produk, lokasi, dan kontak Bank Syariah Indonesia."
     />
-
-    <meta
-      property="og:url"
-      content="https://bsi-kcp-tambun-bekasi.vercel.app/"
-    />
-
-    <meta
-      property="og:image"
-      content="https://bsi-kcp-tambun-bekasi.vercel.app/og-image.png"
-    />
-
+    <meta property="og:url" content="https://bsi-kcp-tambun-bekasi.vercel.app/" />
+    <meta property="og:image" content="https://bsi-kcp-tambun-bekasi.vercel.app/og-image.png" />
     <meta property="og:image:width" content="1200" />
-
     <meta property="og:image:height" content="630" />
-
-    <meta
-      property="og:image:alt"
-      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
-    />
-
+    <meta property="og:image:alt" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
     <meta property="og:locale" content="id_ID" />
-
     <meta property="og:locale:alternate" content="en_US" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-
-    <meta
-      name="twitter:title"
-      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
-    />
-
+    <meta name="twitter:title" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
     <meta
       name="twitter:description"
       content="Website informasi BSI KCP Tambun Bekasi yang menyediakan informasi profil, layanan, produk, lokasi, dan kontak Bank Syariah Indonesia."
     />
-
-    <meta
-      name="twitter:image"
-      content="https://bsi-kcp-tambun-bekasi.vercel.app/og-image.png"
-    />
-
-    <meta
-      name="twitter:image:alt"
-      content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia"
-    />
+    <meta name="twitter:image" content="https://bsi-kcp-tambun-bekasi.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="BSI KCP Tambun Bekasi | Bank Syariah Indonesia" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     <link
       href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap"
       rel="stylesheet"
@@ -172,12 +119,11 @@
       }
     </script>
 
-    <!-- Theme & Language Init -->
+    <!-- Theme & Language Init (Mencegah Flash Screen/FOUC saat Dark Mode) -->
     <script>
       (function () {
         try {
           var t = localStorage.getItem("bsi-theme");
-
           var dark =
             t === "dark" ||
             (!t && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -187,13 +133,11 @@
           }
 
           var m = document.querySelector('meta[name="theme-color"]');
-
           if (m) {
             m.setAttribute("content", dark ? "#0d1516" : "#00847D");
           }
 
           var l = localStorage.getItem("bsi-lang");
-
           if (l === "en") {
             document.documentElement.lang = "en";
           }
@@ -204,7 +148,6 @@
 
   <body>
     <div id="root"></div>
-
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

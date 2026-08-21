@@ -3,6 +3,12 @@
   "short_name": "BSI Tambun",
   "icons": [
     {
+      "src": "/logo-bsi.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "/favicon.ico",
       "sizes": "48x48",
       "type": "image/x-icon"
